@@ -1,0 +1,324 @@
+[
+  {
+    "text": "More stable",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 15,
+        "answer": "steadier"
+      }
+    ]
+  },
+  {
+    "text": "Onomatopoeic",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 24,
+        "answer": "echoic"
+      }
+    ]
+  },
+  {
+    "text": "Outer portions of bread",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 45,
+        "answer": "crusts"
+      }
+    ]
+  },
+  {
+    "text": "Brainy people",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 52,
+        "answer": "eggheads"
+      }
+    ]
+  },
+  {
+    "text": "Holding nothing back",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 65,
+        "answer": "all-"
+      },
+      {
+        "start": 157,
+        "answer": "out"
+      }
+    ]
+  },
+  {
+    "text": "Move back and forth",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 75,
+        "answer": "seesaw"
+      }
+    ]
+  },
+  {
+    "text": "Traitor",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 82,
+        "answer": "turncoat"
+      }
+    ]
+  },
+  {
+    "text": "Screaming",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 105,
+        "answer": "yelling"
+      }
+    ]
+  },
+  {
+    "text": "Fallback in the absence of customization",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 113,
+        "answer": "default"
+      }
+    ]
+  },
+  {
+    "text": "Showing embarrassment",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 135,
+        "answer": "sheepish"
+      }
+    ]
+  },
+  {
+    "text": "Participant in an ocean sport",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 144,
+        "answer": "surfer"
+      }
+    ]
+  },
+  {
+    "text": "Item of footwear that prevents you from sinking",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 165,
+        "answer": "snowshoe"
+      }
+    ]
+  },
+  {
+    "text": "Make more spiritual",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 174,
+        "answer": "rarefy"
+      }
+    ]
+  },
+  {
+    "text": "“I’m a creep, I’m a _____”",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 195,
+        "answer": "weirdo"
+      }
+    ]
+  },
+  {
+    "text": "Set in from the margin",
+    "direction": "across",
+    "fragments": [
+      {
+        "start": 202,
+        "answer": "indented"
+      }
+    ]
+  },
+  {
+    "text": "Astronomically successful film franchise",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 1,
+        "answer": "Star "
+      },
+      {
+        "start": 3,
+        "answer": "Wars"
+      }
+    ]
+  },
+  {
+    "text": "An interlocking puzzle",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 5,
+        "answer": "jigsaw"
+      }
+    ]
+  },
+  {
+    "text": "Brutality",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 7,
+        "answer": "cruelty"
+      }
+    ]
+  },
+  {
+    "text": "A fish- and rice-based dish",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 9,
+        "answer": "kedgeree"
+      }
+    ]
+  },
+  {
+    "text": "Mobility device",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 11,
+        "answer": "wheelchair"
+      }
+    ]
+  },
+  {
+    "text": "Avian sound",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 13,
+        "answer": "birdcall"
+      }
+    ]
+  },
+  {
+    "text": "Employ",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 47,
+        "answer": "use"
+      }
+    ]
+  },
+  {
+    "text": "For example",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 75,
+        "answer": "say"
+      }
+    ]
+  },
+  {
+    "text": "Forks and knives",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 78,
+        "answer": "silverware"
+      }
+    ]
+  },
+  {
+    "text": "Made better",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 106,
+        "answer": "enhanced"
+      }
+    ]
+  },
+  {
+    "text": "The person next door",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 110,
+        "answer": "neighbor"
+      }
+    ]
+  },
+  {
+    "text": "Sailor, in cryptic crosswords",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 119,
+        "answer": "tar"
+      }
+    ]
+  },
+  {
+    "text": "Bird that is reborn",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 127,
+        "answer": "phoenix"
+      }
+    ]
+  },
+  {
+    "text": "A big step",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 144,
+        "answer": "stride"
+      }
+    ]
+  },
+  {
+    "text": "Not a friend",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 147,
+        "answer": "foe"
+      }
+    ]
+  },
+  {
+    "text": "Living ____-____ in my head",
+    "direction": "down",
+    "fragments": [
+      {
+        "start": 176,
+        "answer": "rent-"
+      },
+      {
+        "start": 178,
+        "answer": "free"
+      }
+    ]
+  }
+]
