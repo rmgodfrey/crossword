@@ -1,12 +1,12 @@
-import Heading from './Heading.js';
-import ClueList from './ClueList.js';
+import Heading from './Heading';
+import ClueList from './ClueList';
 
 export default function ClueContainer({
-  clues,
-  selectedClue,
-  handleClueClick,
+  children,
+  clueFragments,
+  state,
+  cellRefs,
   headingLevel,
-  children
 }) {
   return (
     <div className="clue-container">
@@ -14,9 +14,9 @@ export default function ClueContainer({
         {children}
       </Heading>
       <ClueList
-        clues={clues}
-        selectedClue={selectedClue}
-        handleClueClick={handleClueClick}
+        clueFragments={clueFragments}
+        state={state}
+        cellRefs={cellRefs}
       />
     </div>
   );
