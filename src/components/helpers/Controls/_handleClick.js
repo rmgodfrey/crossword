@@ -29,9 +29,9 @@ export default function handleClick({
       }
     });
     changeCellText(newCellText);
-    focusAndSelectCell({
-      cellNumber: selectedCell,
+    focusAndSelectCell(
+      selectedCell,
       selectCell,
       cellRefs,
-    });
+    );
 }

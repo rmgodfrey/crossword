@@ -1,5 +1,6 @@
 import Heading from './Heading';
 import ClueList from './ClueList';
+import './styles/ClueContainer.css';
 
 export default function ClueContainer({
   children,
@@ -9,7 +10,7 @@ export default function ClueContainer({
   headingLevel,
 }) {
   return (
-    <div className="clue-container">
+    <div className="ClueContainer">
       <Heading headingLevel={headingLevel}>
         {children}
       </Heading>

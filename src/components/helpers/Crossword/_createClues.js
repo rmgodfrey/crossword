@@ -45,8 +45,9 @@ export default function createClues(clues) {
       start: clueFragment.start,
       clueId: clueFragment.clueId,
       clueNumbers: [clueNumber],
+      answer: clueFragment.answer,
       clueText,
-    })
+    });
   });
   return partition(encounteredClues, clue => clue.direction === 'across');
 }

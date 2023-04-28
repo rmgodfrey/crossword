@@ -1,4 +1,5 @@
 import Cell from './Cell';
+import './styles/Grid.css';
 
 const spaceBetweenCells = 1;
 const cellWidth = 31;
@@ -8,17 +9,15 @@ function calculateExtent(cellExtent, numberOfCells, spaceBetweenCells) {
   return cellExtent * numberOfCells + spaceBetweenCells * (numberOfCells + 1);
 }
 
-export default function Grid({
-  cells,
-  clues,
-  gridDimensions: { gridWidth, gridHeight },
-  state,
-  cellRefs,
-}) {
+export default function Grid(props) {
+  const {
+    cells,
+    gridDimensions: { gridWidth, gridHeight }
+  } = props;
   return (
     <svg
       viewBox="0 0 481 481"
-      className="grid"
+      className="Grid"
     >
       <rect
         x="0"
@@ -42,11 +41,7 @@ export default function Grid({
           }
           cellNumber={cellNumber}
           clueNumber={clueNumber}
-          cells={cells}
-          clues={clues}
-          gridDimensions={{ gridWidth, gridHeight }}
-          state={state}
-          cellRefs={cellRefs}
+          {...props}
         />
       ))}
     </svg>

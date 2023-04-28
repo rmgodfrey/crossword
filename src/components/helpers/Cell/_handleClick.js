@@ -1,17 +1,17 @@
 import focusAndSelectCell from '../focusAndSelectCell';
 
-function getClueIds({ cellNumber, cells }) {
+function getClueIds(cellNumber, cells) {
   return Object.values(cells[cellNumber].clues).map(
     clue => clue.clueId
   );
 }
 
-function isBeginningOfWord({
+function isBeginningOfWord(
   cellNumber,
   cells,
   clues,
   direction,
-}) {
+) {
   const cellClues = cells[cellNumber].clues;
   if (!(direction in cellClues)) {
     return false;
@@ -21,16 +21,20 @@ function isBeginningOfWord({
   return fragments.some(fragment => fragment.start === cellNumber);
 }
 
-function retrieveClue({
+function retrieveClue(
   cellNumber,
-  cells,
-  clues,
-  selectedCell,
-  selectedClue,
-  hint           // hint should be 'down', 'across', or null
-}) {
+  hint,           // hint should be 'down', 'across', or null
+  {
+    cells,
+    clues,
+    state: {
+      cellState: [selectedCell],
+      clueState: [selectedClue],
+    },
+  },
+) {
   // Find out which clues the chosen cell belongs to.
-  const clueIds = getClueIds({ cellNumber, cells });
+  const clueIds = getClueIds(cellNumber, cells);
 
   // If the chosen cell belongs to the currently selected clue, return that
   // clue, unless the chosen cell is the currently selected cell.
@@ -68,7 +72,7 @@ function retrieveClue({
   // cell of multiple clue fragments, we prioritize across clues.
   if (!hint) {
     for (const direction of possibleDirections) {
-      if (isBeginningOfWord({ cellNumber, cells, clues, direction })) {
+      if (isBeginningOfWord(cellNumber, cells, clues, direction)) {
         return cells[cellNumber].clues[direction].clueId;
       }
     }
@@ -86,24 +90,15 @@ function retrieveClue({
   return selectedClue;
 }
 
-export default function handleClick({
-  cellNumber,
-  cells,
-  clues,
-  state: {
-    cellState: [selectedCell, selectCell],
-    clueState: [selectedClue, selectClue],
-  },
-  cellRefs,
-  hint,
-}) {
-  selectClue(retrieveClue({
+export default function handleClick(props, hint) {
+  const {
     cellNumber,
-    cells,
-    clues,
-    selectedCell,
-    selectedClue,
-    hint
-  }));
-  focusAndSelectCell({ cellNumber, selectCell, cellRefs });
+    state: {
+      cellState: [, selectCell],
+      clueState: [, selectClue],
+    },
+    cellRefs,
+  } = props;
+  selectClue(retrieveClue(cellNumber, hint, props));
+  focusAndSelectCell(cellNumber, selectCell, cellRefs);
 }

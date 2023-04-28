@@ -1,4 +1,5 @@
 import { handleClick } from './helpers/Controls/index';
+import './styles/Controls.css';
 
 function Controls({
   ...props

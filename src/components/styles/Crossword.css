@@ -1,0 +1,15 @@
+.Crossword {
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr;
+  grid-template-rows: 570px;
+  column-gap: 32px;
+}
+
+.Crossword:focus {
+  outline: none;
+}
+
+.Crossword__grid-and-controls {
+  display: flex;
+  flex-direction: column;
+}

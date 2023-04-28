@@ -1,4 +1,5 @@
 import { handleClick } from './helpers/ClueList/index';
+import './styles/ClueList.css';
 
 export default function ClueList({
   clueFragments,
@@ -7,13 +8,13 @@ export default function ClueList({
 }) {
   const selectedClue = state.clueState[0];
   return (
-    <ol className="clue-list">
+    <ul className="ClueList">
       {clueFragments.map((clueFragment, index) => (
         <li
           key={index}
           className={
-            'clue-item'
-            + (selectedClue === clueFragment.clueId ? ' selected' : '')
+            'ClueList__clue'
+            + (selectedClue === clueFragment.clueId ? ' ClueList__clue--selected' : '')
           }
           onClick={() => handleClick({
             clueFragment,
@@ -21,13 +22,13 @@ export default function ClueList({
             cellRefs,
           })}
         >
-          <span className={'bold'}>
+          <span className={'ClueList__clue-number'}>
             {clueFragment.clueNumbers.join()}
           </span>
           {' '}
           {clueFragment.clueText}
         </li>
       ))}
-    </ol>
+    </ul>
   );
 }

@@ -9,9 +9,9 @@ export default function handleClick({
   cellRefs,
 }) {
   selectClue(clueFragment.clueId);
-  focusAndSelectCell({
-    cellNumber: clueFragment.start,
+  focusAndSelectCell(
+    clueFragment.start,
     selectCell,
     cellRefs,
-  });
+  );
 }

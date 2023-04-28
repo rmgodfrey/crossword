@@ -1,4 +1,5 @@
 import focusAndSelectCell from '../focusAndSelectCell';
+import mod from '../mod';
 import handleClick from './_handleClick';
 
 function getLength(answer) {
@@ -16,15 +17,8 @@ function isAlphabetic(key) {
   return isLower || isUpper;
 }
 
-function handleCursorKey({
-  key,
-  cells,
-  clues,
-  gridDimensions,
-  state,
-  cellRefs,
-}) {
-  const selectedCell = state.cellState[0];
+function handleCursorKey(key, props) {
+  const selectedCell = props.state.cellState[0];
   const cursorDict = new Map([
     ['ArrowLeft', ['across', 'backwards']],
     ['ArrowRight', ['across', 'forwards']],
@@ -32,35 +26,24 @@ function handleCursorKey({
     ['ArrowDown', ['down', 'forwards']]
   ]);
   const [axis, direction] = cursorDict.get(key);
-  const newCell = getCell({
-    currentCell: selectedCell,
-    axis,
-    direction,
-    distance: 1,
-    cells,
-    gridDimensions,
-  });
+  const newCell = getCell(selectedCell, axis, direction, 1, props);
   newCell === null || handleClick({
+    ...props,
     cellNumber: newCell,
-    cells,
-    clues,
-    state,
-    cellRefs,
-    hint: cursorDict.get(key)[0],
-  });
+  }, cursorDict.get(key)[0]);
 }
 
-function handleTextInput({
+function handleTextInput(
   key, // `key` is only passed when `direction` is 'forwards'
   direction,
-  cells,
-  clues,
-  gridDimensions,
-  state,
-  cellRefs,
-}) {
-  const [cellText, changeCellText] = state.textState;
-  const [selectedCell] = state.cellState;
+  props,
+) {
+  const {
+    state: {
+      cellState: [selectedCell],
+      textState: [cellText, changeCellText],
+    },
+  } = props;
   const cellTextLocal = new Map(cellText);
   if (direction === 'backwards') {
     if (cellTextLocal.delete(selectedCell)) {
@@ -69,37 +52,68 @@ function handleTextInput({
   } else {
     changeCellText(new Map(cellText).set(selectedCell, key));
   }
-  advanceCell({
-    direction,
-    cells,
-    clues,
-    gridDimensions,
-    state,
-    cellRefs,
-  });
+  advanceCell(direction, props);
 }
 
-function handleTabKey({
-  direction,
-  clues,
-  state,
+function handleTabKey(direction, {
+  cells,
+  clueFragments,
+  gridDimensions,
+  state: {
+    cellState: [selectedCell, selectCell],
+    clueState: [selectedClue, selectClue],
+  },
   cellRefs,
 }) {
-  const [selectedClue, selectClue] = state.clueState;
-  const multiplier = direction === 'backwards' ? -1 : 1;
-  let nextClue = selectedClue + 1 * multiplier;
-  if (nextClue === clues.length) nextClue = 0;
-  if (nextClue === -1) nextClue = clues.length - 1;
-  selectClue(nextClue);
-  focusAndSelectCell({
-    cellNumber: clues[nextClue].fragments[0].start,
-    selectCell: state.cellState[1],
+  const nextFragment = getNextFragment(
+    selectedCell,
+    selectedClue,
+    clueFragments,
+    direction,
+    { cells, gridDimensions }
+  );
+  selectClue(nextFragment.clueId);
+  focusAndSelectCell(
+    nextFragment.start,
+    selectCell,
     cellRefs,
-  });
+  );
 }
 
-function advanceCell({
+function getNextFragment(
+  cellNumber,
+  clueNumber,
+  clueFragments,
   direction,
+  props,
+) {
+  const offset = direction === 'backwards' ? -1 : 1;
+  const clueFragmentNumber = clueFragments.findIndex(
+    clueFragment => (
+      containsCell(clueFragment, cellNumber, props)
+      && clueFragment.clueId === clueNumber
+    )
+  );
+  let nextClueFragmentNumber = mod(
+    clueFragmentNumber + offset,
+    clueFragments.length
+  );
+  return clueFragments[nextClueFragmentNumber];
+}
+
+function containsCell(clueFragment, cellNumber, props) {
+  const gridWidth = props.gridDimensions.gridWidth;
+  const axis = clueFragment.direction;
+  const start = clueFragment.start;
+  if (axis === 'down' && cellNumber % gridWidth !== start % gridWidth) {
+    return false;
+  }
+  const clueFragmentLength = getLength(clueFragment.answer);
+  const end = getCell(start, axis, 'forwards', clueFragmentLength - 1, props);
+  return cellNumber >= start && cellNumber <= end;
+}
+
+function advanceCell(direction, {
   cells,
   clues,
   gridDimensions,
@@ -111,78 +125,55 @@ function advanceCell({
   const offset = direction === 'backwards' ? -1 : 1;
   const axis = clues[selectedClue].direction;
   const fragment = cells[selectedCell].clues[axis].clueFragment;
-  const nextCell = getCell({
-    currentCell: selectedCell,
+  const nextCell = getCell(
+    selectedCell,
     axis,
     direction,
-    distance: 1,
-    cells,
-    gridDimensions,
-  });
+    1,
+    { cells, gridDimensions },
+  );
   if (nextCell === null) {
     const nextFragment = clues[selectedClue].fragments[fragment + offset];
     if (nextFragment === undefined) return;
-    const fragmentEnd = getCell({
-      currentCell: nextFragment.start,
+    const fragmentEnd = getCell(
+      nextFragment.start,
       axis,
-      direction: 'forwards',
-      distance: (
-        direction === 'backwards' ? getLength(nextFragment.answer) - 1 : 0
-      ),
-      cells,
-      gridDimensions,
-    });
-    focusAndSelectCell({
-      cellNumber: fragmentEnd,
-      selectCell,
-      cellRefs,
-    });
+      'forwards',
+      direction === 'backwards' ? getLength(nextFragment.answer) - 1 : 0,
+      { cells, gridDimensions },
+    );
+    focusAndSelectCell(fragmentEnd, selectCell, cellRefs);
   } else {
-    focusAndSelectCell({
-      cellNumber: nextCell,
-      selectCell,
-      cellRefs,
-    });
+    focusAndSelectCell(nextCell, selectCell, cellRefs);
   }
 }
 
-function getCell({
+function getCell(
   currentCell,
   axis,         // 'across' or 'down'
   direction,    // 'forwards' or 'backwards'
   distance,
-  cells,
-  gridDimensions: { gridWidth, gridHeight },
-}) {
-  const [step, axisMagnitude, axisLength] = (
-    axis === 'across' ? [1, currentCell % gridWidth, gridWidth]
-    : axis === 'down' ? [
-      gridWidth,
-      Math.floor(currentCell / gridWidth),
-      gridHeight,
-    ]
-    : null
+  {
+    cells,
+    gridDimensions: { gridWidth, gridHeight }
+  },
+) {
+  const [step, magnitude, axisLength] = (
+    axis === 'across'
+    ? [1, currentCell % gridWidth, gridWidth]
+    : [gridWidth, Math.floor(currentCell / gridWidth), gridHeight]
   );
-  const [multiplier, boundary] = (
-    direction === 'forwards' ? [distance, axisLength - 1]
-    : direction === 'backwards' ? [-distance, 0]
-    : null
+  const [multiplier, isOutOfBounds] = (
+    direction === 'forwards'
+    ? [distance, magnitude + distance > axisLength - 1]
+    : [-distance, magnitude - distance < 0]
   );
-  if (axisMagnitude === boundary) {
-    return null;
-  }
   const newCell = currentCell + step * multiplier;
+  if (isOutOfBounds) return null;
   return (newCell in cells) ? newCell : null;
 }
 
-export default function handleKeyDown({
-  event,
-  cells,
-  clues,
-  gridDimensions,
-  state,
-  cellRefs,
-}) {
+export default function handleKeyDown(event, props) {
   if ([
     'ArrowLeft',
     'ArrowRight',
@@ -190,45 +181,18 @@ export default function handleKeyDown({
     'ArrowDown'
   ].includes(event.key)) {
     event.preventDefault();
-    return handleCursorKey({
-      key: event.key,
-      cells,
-      clues,
-      gridDimensions,
-      state,
-      cellRefs,
-    });
+    return handleCursorKey(event.key, props);
   }
   if (isAlphabetic(event.key)) {
     if (event.ctrlKey || event.altKey || event.metaKey) return;
-    return handleTextInput({
-      key: event.key.toUpperCase(),
-      direction: 'forwards',
-      cells,
-      clues,
-      gridDimensions,
-      state,
-      cellRefs,
-    });
+    return handleTextInput(event.key.toUpperCase(), 'forwards', props);
   }
   if (['Backspace', 'Delete'].includes(event.key)) {
-    return handleTextInput({
-      direction: 'backwards',
-      cells,
-      clues,
-      gridDimensions,
-      state,
-      cellRefs,
-    })
+    return handleTextInput(undefined, 'backwards', props);
   }
   if (event.key === 'Tab') {
     event.preventDefault();
     const direction = event.shiftKey ? 'backwards' : 'forwards';
-    return handleTabKey({
-      direction,
-      clues,
-      state,
-      cellRefs,
-    });
+    return handleTabKey(direction, props);
   }
 }

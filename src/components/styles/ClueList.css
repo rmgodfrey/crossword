@@ -1,0 +1,16 @@
+.ClueList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.ClueList__clue {
+  margin-block: 8px;
+}
+
+.ClueList__clue--selected {
+  background-color: var(--selected-clue-color);
+}
+
+.ClueList__clue-number {
+  font-weight: bold;
+}

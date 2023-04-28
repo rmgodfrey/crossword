@@ -7,6 +7,7 @@ import {
   createCells,
   createClues,
 } from './helpers/Crossword/index';
+import './styles/Crossword.css';
 
 const gridWidth = 15;
 const gridHeight = gridWidth;
@@ -22,11 +23,12 @@ export default function Crossword({ clues, headingLevel }) {
   return (
     <>
       <Heading headingLevel={headingLevel}>Rossword</Heading>
-      <div className="crossword-container">
-        <div className="grid-and-controls">
+      <div className="Crossword">
+        <div className="Crossword__grid-and-controls">
           <Grid
             cells={cells}
             clues={clues}
+            clueFragments={[...acrossClues, ...downClues]}
             gridDimensions={{ gridWidth, gridHeight }}
             state={{ cellState, clueState, textState }}
             cellRefs={cellRefs}

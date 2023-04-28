@@ -1,0 +1,19 @@
+.Cell {
+  fill: #ffffff;
+}
+
+.Cell--selected-clue {
+  fill: var(--selected-clue-color);
+}
+
+.Cell--selected-cell {
+  fill: var(--selected-cell-color);
+}
+
+.Cell__number, .Cell__text {
+  fill: #000000;
+}
+
+.Cell__number {
+  font-size: 0.625rem;
+}
