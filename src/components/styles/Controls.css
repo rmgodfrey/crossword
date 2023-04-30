@@ -1,0 +1,43 @@
+.Controls {
+  display: flex;
+  gap: 16px;
+  padding-left: 0px;
+  list-style-type: none;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+}
+
+.Controls__control {
+  appearance: none;
+  border: none;
+  background: var(--button-color);
+  border: 2px solid black;
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: bold;
+  width: max-content;
+  font-size: unset;
+}
+
+.Controls__control--letter {
+  background: var(--button-color);
+}
+
+.Controls__control--grid {
+  background: var(--button-color-dark);
+  color: var(--text-color-light);
+}
+
+.Controls__control:hover {
+  transition: all ease-in 0.1s;
+}
+
+.Controls__control--letter:hover {
+  background: var(--button-color-hover);
+}
+
+.Controls__control--grid:hover {
+  background: var(--button-color-dark-hover);
+  color: var(--text-color-light);
+}

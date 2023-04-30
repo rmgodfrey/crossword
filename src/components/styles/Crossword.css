@@ -1,8 +1,8 @@
 .Crossword {
   display: grid;
-  grid-template-columns: 3fr 2fr 2fr;
-  grid-template-rows: 570px;
+  grid-template-columns: 550px 1fr 1fr;
   column-gap: 32px;
+  max-width: 1200px;
 }
 
 .Crossword:focus {
@@ -10,6 +10,11 @@
 }
 
 .Crossword__grid-and-controls {
-  display: flex;
   flex-direction: column;
+  align-items: flex-start;
+}
+
+.Crossword__controls {
+  display: flex;
+  gap: 16px;
 }

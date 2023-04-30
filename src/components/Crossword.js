@@ -22,7 +22,9 @@ export default function Crossword({ clues, headingLevel }) {
 
   return (
     <>
-      <Heading headingLevel={headingLevel}>Rossword</Heading>
+      <Heading headingLevel={headingLevel} className="Crossword__heading">
+        Rossword
+      </Heading>
       <div className="Crossword">
         <div className="Crossword__grid-and-controls">
           <Grid
@@ -33,11 +35,13 @@ export default function Crossword({ clues, headingLevel }) {
             state={{ cellState, clueState, textState }}
             cellRefs={cellRefs}
           />
-          <Controls
-            cells={cells}
-            state={{ cellState, textState }}
-            cellRefs={cellRefs}
-          />
+          <div className="Crossword__controls">
+            <Controls
+              cells={cells}
+              state={{ cellState, textState }}
+              cellRefs={cellRefs}
+            />
+          </div>
         </div>
         <ClueContainer
           clueFragments={acrossClues}
