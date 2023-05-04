@@ -12,6 +12,7 @@
   border: none;
   background: var(--button-color);
   border: 2px solid black;
+  color: black;
   cursor: pointer;
   padding: 4px 12px;
   border-radius: 16px;

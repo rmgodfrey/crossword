@@ -9,6 +9,7 @@
 .Grid__input-wrapper {
   display: none;
   position: absolute;
+  pointer-events: none;
 }
 
 .Grid__input-field {
