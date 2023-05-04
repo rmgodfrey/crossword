@@ -1,3 +1,23 @@
 .Grid {
+  position: relative;
+}
+
+.Grid__graphics {
   display: block;
+}
+
+.Grid__input-wrapper {
+  display: none;
+  position: absolute;
+}
+
+.Grid__input-field {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  text-align: center;
+  font-size: 1em;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }

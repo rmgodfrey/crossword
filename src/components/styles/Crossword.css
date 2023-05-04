@@ -9,11 +9,6 @@
   outline: none;
 }
 
-.Crossword__grid-and-controls {
-  flex-direction: column;
-  align-items: flex-start;
-}
-
 .Crossword__controls {
   display: flex;
   gap: 16px;

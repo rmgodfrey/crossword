@@ -1,6 +1,6 @@
 import focusAndSelectCell from '../focusAndSelectCell';
 import mod from '../mod';
-import handleClick from './_handleClick';
+import { handleClick } from '../Cell/index';
 
 function getLength(answer) {
   return answer.replaceAll(/[- ]/g, '').length;
@@ -63,7 +63,7 @@ function handleTabKey(direction, {
     cellState: [selectedCell, selectCell],
     clueState: [selectedClue, selectClue],
   },
-  cellRefs,
+  inputRef,
 }) {
   const nextFragment = getNextFragment(
     selectedCell,
@@ -76,7 +76,7 @@ function handleTabKey(direction, {
   focusAndSelectCell(
     nextFragment.start,
     selectCell,
-    cellRefs,
+    inputRef,
   );
 }
 
@@ -118,7 +118,7 @@ function advanceCell(direction, {
   clues,
   gridDimensions,
   state,
-  cellRefs,
+  inputRef,
 }) {
   const [selectedCell, selectCell] = state.cellState;
   const [selectedClue] = state.clueState;
@@ -142,9 +142,9 @@ function advanceCell(direction, {
       direction === 'backwards' ? getLength(nextFragment.answer) - 1 : 0,
       { cells, gridDimensions },
     );
-    focusAndSelectCell(fragmentEnd, selectCell, cellRefs);
+    focusAndSelectCell(fragmentEnd, selectCell, inputRef);
   } else {
-    focusAndSelectCell(nextCell, selectCell, cellRefs);
+    focusAndSelectCell(nextCell, selectCell, inputRef);
   }
 }
 

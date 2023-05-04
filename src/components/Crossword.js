@@ -16,7 +16,7 @@ export default function Crossword({ clues, headingLevel }) {
   const cellState = useState(null);
   const clueState = useState(null);
   const textState = useState(new Map());
-  const cellRefs = useRef([]);
+  const inputRef = useRef(null);
   const cells = createCells(clues, gridWidth, gridHeight);
   const [acrossClues, downClues] = createClues(clues);
 
@@ -33,20 +33,20 @@ export default function Crossword({ clues, headingLevel }) {
             clueFragments={[...acrossClues, ...downClues]}
             gridDimensions={{ gridWidth, gridHeight }}
             state={{ cellState, clueState, textState }}
-            cellRefs={cellRefs}
+            inputRef={inputRef}
           />
           <div className="Crossword__controls">
             <Controls
               cells={cells}
               state={{ cellState, textState }}
-              cellRefs={cellRefs}
+              inputRef={inputRef}
             />
           </div>
         </div>
         <ClueContainer
           clueFragments={acrossClues}
           state={{ cellState, clueState }}
-          cellRefs={cellRefs}
+          inputRef={inputRef}
           headingLevel={headingLevel + 1}
         >
           Across
@@ -54,7 +54,7 @@ export default function Crossword({ clues, headingLevel }) {
         <ClueContainer
           clueFragments={downClues}
           state={{ cellState, clueState }}
-          cellRefs={cellRefs}
+          inputRef={inputRef}
           headingLevel={headingLevel + 1}
         >
           Down

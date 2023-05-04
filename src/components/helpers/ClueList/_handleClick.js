@@ -6,12 +6,12 @@ export default function handleClick({
     cellState: [, selectCell],
     clueState: [, selectClue],
   },
-  cellRefs,
+  inputRef,
 }) {
   selectClue(clueFragment.clueId);
   focusAndSelectCell(
     clueFragment.start,
     selectCell,
-    cellRefs,
+    inputRef,
   );
 }

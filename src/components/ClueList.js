@@ -4,7 +4,7 @@ import './styles/ClueList.css';
 export default function ClueList({
   clueFragments,
   state,
-  cellRefs,
+  inputRef,
 }) {
   const selectedClue = state.clueState[0];
   return (
@@ -19,7 +19,7 @@ export default function ClueList({
           onClick={() => handleClick({
             clueFragment,
             state,
-            cellRefs,
+            inputRef,
           })}
         >
           <span className={'ClueList__clue-number'}>

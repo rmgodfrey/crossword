@@ -8,7 +8,7 @@ export default function handleClick({
     cellState: [selectedCell, selectCell],
     textState: [cellText, changeCellText],
   },
-  cellRefs,
+  inputRef,
 }) {
     let cellsToTest = cells;
     if (target === 'letter') {
@@ -32,6 +32,6 @@ export default function handleClick({
     focusAndSelectCell(
       selectedCell,
       selectCell,
-      cellRefs,
+      inputRef,
     );
 }
