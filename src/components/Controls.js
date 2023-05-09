@@ -11,27 +11,31 @@ const instructions = [
 ];
 
 function Controls(props) {
-  return targets.map((target, i) => (
-    <ul key={i} className="Controls">
-      {instructions.map((instruction, i) => (
-        <li key={i}>
-          <button
-            onClick={() => handleClick({
-              instruction: instruction.instructionMode,
-              target: target.targetMode,
-              ...props,
-            })}
-            className={`
-              Controls__control
-              Controls__control--${target.className}
-            `}
-          >
-            {instruction.text} {target.text}
-          </button>
-        </li>
+  return (
+    <div className="Controls__wrapper">
+      {targets.map((target, i) => (
+        <ul key={i} className="Controls">
+          {instructions.map((instruction, i) => (
+            <li key={i}>
+              <button
+                onClick={() => handleClick({
+                  instruction: instruction.instructionMode,
+                  target: target.targetMode,
+                  ...props,
+                })}
+                className={`
+                  Controls__control
+                  Controls__control--${target.className}
+                `}
+              >
+                {instruction.text} {target.text}
+              </button>
+            </li>
+          ))}
+        </ul>
       ))}
-    </ul>
-  ));
+    </div>
+  );
 }
 
 export default Controls;

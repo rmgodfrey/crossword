@@ -8,6 +8,7 @@
 
 .Cell--selected-cell {
   fill: var(--selected-cell-color);
+  cursor: text;
 }
 
 .Cell__number, .Cell__text {

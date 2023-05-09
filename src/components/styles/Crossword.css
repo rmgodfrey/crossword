@@ -1,15 +1,46 @@
 .Crossword {
   display: grid;
-  grid-template-columns: 550px 1fr 1fr;
-  column-gap: 32px;
-  max-width: 1200px;
+  grid-template-areas:
+    "header header header"
+    "main-left main-right-first main-right-second";
+  grid-template-columns: 1.8fr 1fr 1fr;
+  grid-template-rows:
+    7vh 78vh;
+  max-width: 1125px;
+  max-height: 100vh;
+  gap: var(--grid-gap);
+  padding: var(--grid-gap);
+  overflow: hidden;
 }
 
 .Crossword:focus {
   outline: none;
 }
 
-.Crossword__controls {
+.Crossword__heading {
+  grid-area: header;
+}
+
+.Crossword__grid-and-controls {
+  grid-area: main-left;
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.Crossword__grid {
+  height: 100%;
+}
+
+.Crossword__clue-container {
+  height: 100%;
+  overflow: hidden;
+}
+
+.Crossword__clue-container--across {
+  grid-area: main-right-first;
+}
+
+.Crossword__clue-container--down {
+  grid-area: main-right-second;
 }

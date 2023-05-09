@@ -21,12 +21,12 @@ export default function Crossword({ clues, headingLevel }) {
   const [acrossClues, downClues] = createClues(clues);
 
   return (
-    <>
+    <div className="Crossword">
       <Heading headingLevel={headingLevel} className="Crossword__heading">
         Rossword
       </Heading>
-      <div className="Crossword">
-        <div className="Crossword__grid-and-controls">
+      <div className="Crossword__grid-and-controls">
+        <div className="Crossword__grid">
           <Grid
             cells={cells}
             clues={clues}
@@ -35,14 +35,19 @@ export default function Crossword({ clues, headingLevel }) {
             state={{ cellState, clueState, textState }}
             inputRef={inputRef}
           />
-          <div className="Crossword__controls">
-            <Controls
-              cells={cells}
-              state={{ cellState, textState }}
-              inputRef={inputRef}
-            />
-          </div>
         </div>
+        <div className="Crossword__controls">
+          <Controls
+            cells={cells}
+            state={{ cellState, textState }}
+            inputRef={inputRef}
+          />
+        </div>
+      </div>
+      <div className="
+        Crossword__clue-container
+        Crossword__clue-container--across
+      ">
         <ClueContainer
           clueFragments={acrossClues}
           state={{ cellState, clueState }}
@@ -51,6 +56,11 @@ export default function Crossword({ clues, headingLevel }) {
         >
           Across
         </ClueContainer>
+      </div>
+      <div className="
+        Crossword__clue-container
+        Crossword__clue-container--down
+      ">
         <ClueContainer
           clueFragments={downClues}
           state={{ cellState, clueState }}
@@ -60,6 +70,6 @@ export default function Crossword({ clues, headingLevel }) {
           Down
         </ClueContainer>
       </div>
-    </>
+    </div>
   );
 }

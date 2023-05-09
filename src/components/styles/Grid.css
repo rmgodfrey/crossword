@@ -10,6 +10,7 @@
   display: none;
   position: absolute;
   pointer-events: none;
+  cursor: text;
 }
 
 .Grid__input-field {
