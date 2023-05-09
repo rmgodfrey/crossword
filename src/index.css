@@ -11,8 +11,9 @@
   --button-color-dark-hover: #7b450b;
   --text-color: #000000;
   --text-color-light: var(--background-color-light2);
-  --grid-gap: 5vh;
-  --main-heading-size: 10vh;
+  --grid-gap: 4vh;
+  --grid-outer-padding: 5vh;
+  --main-heading-size: 7vh;
 }
 
 *, *::before, *::after {

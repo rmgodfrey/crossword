@@ -4,12 +4,16 @@
     "header header header"
     "main-left main-right-first main-right-second";
   grid-template-columns: 1.8fr 1fr 1fr;
-  grid-template-rows:
-    7vh 78vh;
+  grid-template-rows: var(--main-heading-size) calc(
+    100vh
+    - var(--main-heading-size)
+    - var(--grid-gap)
+    - (var(--grid-outer-padding) * 2)
+  );
   max-width: 1125px;
   max-height: 100vh;
   gap: var(--grid-gap);
-  padding: var(--grid-gap);
+  padding: var(--grid-outer-padding);
   overflow: hidden;
 }
 
@@ -26,10 +30,6 @@
   display: flex;
   flex-direction: column;
   gap: 2vh;
-}
-
-.Crossword__grid {
-  height: 100%;
 }
 
 .Crossword__clue-container {

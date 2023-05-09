@@ -13,9 +13,9 @@ const instructions = [
 function Controls(props) {
   return (
     <div className="Controls__wrapper">
-      {targets.map((target, i) => (
+      {instructions.map((instruction, i) => (
         <ul key={i} className="Controls">
-          {instructions.map((instruction, i) => (
+          {targets.map((target, i) => (
             <li key={i}>
               <button
                 onClick={() => handleClick({

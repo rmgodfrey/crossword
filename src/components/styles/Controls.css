@@ -1,16 +1,15 @@
 .Controls {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 16px;
   padding-left: 0px;
   list-style-type: none;
-  flex-wrap: wrap;
   margin-bottom: 0;
 }
 
 .Controls__wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 2vh;
 }
 
