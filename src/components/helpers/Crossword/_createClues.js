@@ -1,3 +1,5 @@
+import 'core-js/es/array/at';
+
 function getClueFragments(clues) {
   const clueFragments = [];
   clues.forEach((clue, index) => {
