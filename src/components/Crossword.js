@@ -31,7 +31,8 @@ export default function Crossword({ clues, headingLevel }) {
     }
     window.addEventListener('resize', fireScrollEvent);
     fireScrollEvent();
-  });
+    return () => window.removeEventListener('resize', fireScrollEvent);
+  }, []);
   useEffect(() => {
     if (selectedCell !== null) {
       const inputField = inputRef.current.querySelector('.Grid__input-field');
