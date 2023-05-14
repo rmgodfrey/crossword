@@ -32,6 +32,13 @@ export default function Crossword({ clues, headingLevel }) {
     window.addEventListener('resize', fireScrollEvent);
     fireScrollEvent();
   });
+  useEffect(() => {
+    if (selectedCell !== null) {
+      const inputField = inputRef.current.querySelector('.Grid__input-field');
+      inputRef.current.style.display = 'block';
+      inputField.focus();
+    }
+  });
 
   const cells = createCells(clues, gridWidth, gridHeight);
   const [acrossClues, downClues] = createClues(clues);

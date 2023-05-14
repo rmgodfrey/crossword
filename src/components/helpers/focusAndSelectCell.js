@@ -4,9 +4,9 @@ export default function focusAndSelectCell(
   inputRef,
 ) {
   selectCell(cellNumber);
-  if (cellNumber !== null) {
-    const inputField = inputRef.current.querySelector('.Grid__input-field');
-    inputRef.current.style.display = 'block';
-    inputField.focus();
-  }
+  // if (cellNumber !== null) {
+  //   const inputField = inputRef.current.querySelector('.Grid__input-field');
+  //   inputRef.current.style.display = 'block';
+  //   inputField.focus();
+  // }
 }
