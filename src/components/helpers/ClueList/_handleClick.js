@@ -6,7 +6,7 @@ export default function handleClick({
     cellState: [, selectCell],
     clueState: [, selectClue],
   },
-  inputRef,
+  refs: { inputRef },
 }) {
   selectClue(clueFragment.clueId);
   focusAndSelectCell(

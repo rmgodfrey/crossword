@@ -8,7 +8,7 @@ export default function handleClick({
     cellState: [selectedCell, selectCell],
     textState: [cellText, changeCellText],
   },
-  inputRef,
+  refs: { inputRef },
 }) {
     let cellsToTest = cells;
     if (target === 'letter') {

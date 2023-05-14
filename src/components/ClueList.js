@@ -1,14 +1,28 @@
 import { handleClick } from './helpers/ClueList/index';
 import './styles/ClueList.css';
+import useScrollbarShadow from './helpers/useScrollbarShadow';
+import Clue from './Clue';
 
 export default function ClueList({
   clueFragments,
   state,
-  inputRef,
+  refs,
+  direction,
 }) {
+  const { overflow, onScrollHandler } = useScrollbarShadow();
   const selectedClue = state.clueState[0];
+  let clueListClass = 'ClueList';
+  if (overflow) {
+    clueListClass += ` ClueList--${overflow}-overflow`;
+  };
   return (
-    <ul className="ClueList">
+    <ul
+      onScroll={onScrollHandler}
+      className={clueListClass}
+      ref={(node) => {
+        refs.clueListRefs.current[direction] = node;
+      }}
+    >
       {clueFragments.map((clueFragment, index) => (
         <li
           key={index}
@@ -19,14 +33,10 @@ export default function ClueList({
           onClick={() => handleClick({
             clueFragment,
             state,
-            inputRef,
+            refs,
           })}
         >
-          <span className={'ClueList__clue-number'}>
-            {clueFragment.clueNumbers.join()}
-          </span>
-          {' '}
-          {clueFragment.clueText}
+          <Clue clueFragment={clueFragment} />
         </li>
       ))}
     </ul>

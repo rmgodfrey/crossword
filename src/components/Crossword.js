@@ -1,24 +1,42 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Grid from './Grid';
 import Controls from './Controls';
 import ClueContainer from './ClueContainer';
+import Clue from './Clue';
 import Heading from './Heading';
 import {
   createCells,
   createClues,
 } from './helpers/Crossword/index';
+import getCurrentFragment from './helpers/getCurrentFragment';
 import './styles/Crossword.css';
 
 const gridWidth = 15;
 const gridHeight = gridWidth;
 
 export default function Crossword({ clues, headingLevel }) {
-  const cellState = useState(null);
-  const clueState = useState(null);
+  const cellState = useState(null),
+        [selectedCell] = cellState;
+  const clueState = useState(null),
+        [selectedClue] = clueState;
   const textState = useState(new Map());
   const inputRef = useRef(null);
+  const currentClueRef = useRef(null);
+  const clueListRefs = useRef({});
+  useEffect(() => {
+    function fireScrollEvent() {
+      Object.keys(clueListRefs.current).forEach((clueList) => {
+        console.log(clueList);
+        clueListRefs.current[clueList].dispatchEvent(new CustomEvent('scroll'));
+      });
+    }
+    window.addEventListener('resize', fireScrollEvent);
+    fireScrollEvent();
+  });
+
   const cells = createCells(clues, gridWidth, gridHeight);
   const [acrossClues, downClues] = createClues(clues);
+  const clueFragments = [...acrossClues, ...downClues];
 
   return (
     <div className="Crossword">
@@ -30,17 +48,29 @@ export default function Crossword({ clues, headingLevel }) {
           <Grid
             cells={cells}
             clues={clues}
-            clueFragments={[...acrossClues, ...downClues]}
+            clueFragments={clueFragments}
             gridDimensions={{ gridWidth, gridHeight }}
             state={{ cellState, clueState, textState }}
-            inputRef={inputRef}
+            refs={{ inputRef }}
           />
         </div>
+        <p className="Crossword__current-clue">
+          {
+            selectedClue === null
+            ? ''
+            : <Clue clueFragment={clueFragments[getCurrentFragment(
+              clueFragments,
+              selectedCell,
+              selectedClue,
+              { cells, gridDimensions: { gridWidth, gridHeight } },
+            )]}/>
+          }
+        </p>
         <div className="Crossword__controls">
           <Controls
             cells={cells}
             state={{ cellState, textState }}
-            inputRef={inputRef}
+            refs={{ inputRef }}
           />
         </div>
       </div>
@@ -51,8 +81,9 @@ export default function Crossword({ clues, headingLevel }) {
         <ClueContainer
           clueFragments={acrossClues}
           state={{ cellState, clueState }}
-          inputRef={inputRef}
+          refs={{ clueListRefs, inputRef }}
           headingLevel={headingLevel + 1}
+          direction="across"
         >
           Across
         </ClueContainer>
@@ -64,8 +95,9 @@ export default function Crossword({ clues, headingLevel }) {
         <ClueContainer
           clueFragments={downClues}
           state={{ cellState, clueState }}
-          inputRef={inputRef}
+          refs={{ clueListRefs, inputRef }}
           headingLevel={headingLevel + 1}
+          direction="down"
         >
           Down
         </ClueContainer>

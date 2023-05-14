@@ -1,10 +1,9 @@
 import focusAndSelectCell from '../focusAndSelectCell';
+import getCurrentFragment from '../getCurrentFragment';
+import getLength from '../getLength';
+import getCell from '../getCell';
 import mod from '../mod';
 import { handleClick } from '../Cell/index';
-
-function getLength(answer) {
-  return answer.replaceAll(/[- ]/g, '').length;
-}
 
 function isAlphabetic(key) {
   if (key.length !== 1) return false;
@@ -63,7 +62,7 @@ function handleTabKey(direction, {
     cellState: [selectedCell, selectCell],
     clueState: [selectedClue, selectClue],
   },
-  inputRef,
+  refs: { inputRef },
 }) {
   const nextFragment = getNextFragment(
     selectedCell,
@@ -88,11 +87,11 @@ function getNextFragment(
   props,
 ) {
   const offset = direction === 'backwards' ? -1 : 1;
-  const clueFragmentNumber = clueFragments.findIndex(
-    clueFragment => (
-      containsCell(clueFragment, cellNumber, props)
-      && clueFragment.clueId === clueNumber
-    )
+  const clueFragmentNumber = getCurrentFragment(
+    clueFragments,
+    cellNumber,
+    clueNumber,
+    props,
   );
   let nextClueFragmentNumber = mod(
     clueFragmentNumber + offset,
@@ -101,24 +100,12 @@ function getNextFragment(
   return clueFragments[nextClueFragmentNumber];
 }
 
-function containsCell(clueFragment, cellNumber, props) {
-  const gridWidth = props.gridDimensions.gridWidth;
-  const axis = clueFragment.direction;
-  const start = clueFragment.start;
-  if (axis === 'down' && cellNumber % gridWidth !== start % gridWidth) {
-    return false;
-  }
-  const clueFragmentLength = getLength(clueFragment.answer);
-  const end = getCell(start, axis, 'forwards', clueFragmentLength - 1, props);
-  return cellNumber >= start && cellNumber <= end;
-}
-
 function advanceCell(direction, {
   cells,
   clues,
   gridDimensions,
   state,
-  inputRef,
+  refs: { inputRef },
 }) {
   const [selectedCell, selectCell] = state.cellState;
   const [selectedClue] = state.clueState;
@@ -146,31 +133,6 @@ function advanceCell(direction, {
   } else {
     focusAndSelectCell(nextCell, selectCell, inputRef);
   }
-}
-
-function getCell(
-  currentCell,
-  axis,         // 'across' or 'down'
-  direction,    // 'forwards' or 'backwards'
-  distance,
-  {
-    cells,
-    gridDimensions: { gridWidth, gridHeight }
-  },
-) {
-  const [step, magnitude, axisLength] = (
-    axis === 'across'
-    ? [1, currentCell % gridWidth, gridWidth]
-    : [gridWidth, Math.floor(currentCell / gridWidth), gridHeight]
-  );
-  const [multiplier, isOutOfBounds] = (
-    direction === 'forwards'
-    ? [distance, magnitude + distance > axisLength - 1]
-    : [-distance, magnitude - distance < 0]
-  );
-  const newCell = currentCell + step * multiplier;
-  if (isOutOfBounds) return null;
-  return (newCell in cells) ? newCell : null;
 }
 
 export default function handleKeyDown(event, props) {

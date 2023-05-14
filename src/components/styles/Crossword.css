@@ -4,17 +4,10 @@
     "header header header"
     "main-left main-right-first main-right-second";
   grid-template-columns: 1.8fr 1fr 1fr;
-  grid-template-rows: var(--main-heading-size) calc(
-    100vh
-    - var(--main-heading-size)
-    - var(--grid-gap)
-    - (var(--grid-outer-padding) * 2)
-  );
+  grid-template-rows: auto 578px;
   max-width: 1125px;
-  max-height: 100vh;
   gap: var(--grid-gap);
   padding: var(--grid-outer-padding);
-  overflow: hidden;
 }
 
 .Crossword:focus {
@@ -43,4 +36,22 @@
 
 .Crossword__clue-container--down {
   grid-area: main-right-second;
+}
+
+.Crossword__current-clue {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .Crossword {
+    grid-template-areas:
+      "header header"
+      "main-left main-left"
+      "main-right-first main-right-second";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .Crossword__current-clue {
+    display: block;
+  }
 }

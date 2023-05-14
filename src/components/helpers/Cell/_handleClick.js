@@ -97,7 +97,7 @@ export default function handleClick(props, hint) {
       cellState: [, selectCell],
       clueState: [, selectClue],
     },
-    inputRef,
+    refs: { inputRef },
   } = props;
   selectClue(retrieveClue(cellNumber, hint, props));
   focusAndSelectCell(cellNumber, selectCell, inputRef);

@@ -29,11 +29,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: repeating-linear-gradient(
-    45deg,
-    var(--background-color-light1),
-    var(--background-color-light2) 400px,
-    var(--background-color-dark) 400px,
-    var(--background-color-dark) 600px
+    225deg,
+    var(--background-color-light1) -200px,
+    var(--background-color-light2) 200px,
+    var(--background-color-dark) 200px,
+    var(--background-color-dark) 400px
   );
 }
 

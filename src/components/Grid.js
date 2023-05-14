@@ -58,7 +58,7 @@ export default function Grid(props) {
     state: {
       cellState: [selectedCell],
     },
-    inputRef,
+    refs,
   } = props;
   return (
     <div className="Grid">
@@ -90,7 +90,7 @@ export default function Grid(props) {
       </svg>
       <div
         className="Grid__input-wrapper"
-        ref={inputRef}
+        ref={refs.inputRef}
         style={{
           width: `${100 / gridWidth}%`,
           height: `${100 / gridHeight}%`,

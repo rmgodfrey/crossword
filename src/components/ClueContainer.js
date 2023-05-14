@@ -6,7 +6,8 @@ export default function ClueContainer({
   children,
   clueFragments,
   state,
-  inputRef,
+  refs,
+  direction,
   headingLevel,
 }) {
   return (
@@ -17,7 +18,8 @@ export default function ClueContainer({
       <ClueList
         clueFragments={clueFragments}
         state={state}
-        inputRef={inputRef}
+        refs={refs}
+        direction={direction}
       />
     </div>
   );

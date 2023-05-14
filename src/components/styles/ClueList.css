@@ -1,7 +1,22 @@
 .ClueList {
   list-style-type: none;
   padding-left: 0;
-  overflow: scroll;
+  overflow: auto;
+}
+
+.ClueList--top-overflow {
+  mask-image: linear-gradient(to top, white 90%, 93%, transparent);
+  -webkit-mask-image: linear-gradient(to top, white 90%, 93%, transparent);
+}
+
+.ClueList--bottom-overflow {
+  mask-image: linear-gradient(to top, transparent, 7%, white 10%);
+  -webkit-mask-image: linear-gradient(to top, transparent, 7%, white 10%);
+}
+
+.ClueList--top-and-bottom-overflow {
+  mask-image: linear-gradient(to top, transparent, 7%, white 10%, white 90%, 93%, transparent);
+  -webkit-mask-image: linear-gradient(to top, transparent, 7%, white 10%, white 90%, 93%, transparent);
 }
 
 .ClueList__clue {
@@ -15,9 +30,5 @@
   border: 2px solid var(--text-color);
   border-radius: 5px;
   color: var(--text-color-light);
-  font-weight: bold;
-}
-
-.ClueList__clue-number {
   font-weight: bold;
 }
