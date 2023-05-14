@@ -26,7 +26,6 @@ export default function Crossword({ clues, headingLevel }) {
   useEffect(() => {
     function fireScrollEvent() {
       Object.keys(clueListRefs.current).forEach((clueList) => {
-        console.log(clueList);
         clueListRefs.current[clueList].dispatchEvent(new CustomEvent('scroll'));
       });
     }
