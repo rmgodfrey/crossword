@@ -38,12 +38,28 @@ export default function Crossword({ clues, headingLevel }) {
   const [acrossClues, downClues] = createClues(clues);
   const clueFragments = [...acrossClues, ...downClues];
 
+  const currentClue = (
+    <p className="Crossword__current-clue">
+    {
+      selectedClue === null
+      ? ''
+      : <Clue clueFragment={clueFragments[getCurrentFragment(
+        clueFragments,
+        selectedCell,
+        selectedClue,
+        { cells, gridDimensions: { gridWidth, gridHeight } },
+      )]}/>
+    }
+    </p>
+  );
+
   return (
     <div className="Crossword">
       <Heading headingLevel={headingLevel} className="Crossword__heading">
         Rossword
       </Heading>
       <div className="Crossword__grid-and-controls">
+        {currentClue}
         <div className="Crossword__grid">
           <Grid
             cells={cells}
@@ -54,18 +70,7 @@ export default function Crossword({ clues, headingLevel }) {
             refs={{ inputRef }}
           />
         </div>
-        <p className="Crossword__current-clue">
-          {
-            selectedClue === null
-            ? ''
-            : <Clue clueFragment={clueFragments[getCurrentFragment(
-              clueFragments,
-              selectedCell,
-              selectedClue,
-              { cells, gridDimensions: { gridWidth, gridHeight } },
-            )]}/>
-          }
-        </p>
+        {currentClue}
         <div className="Crossword__controls">
           <Controls
             cells={cells}

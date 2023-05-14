@@ -40,6 +40,7 @@
 
 .Crossword__current-clue {
   display: none;
+  margin: 0;
 }
 
 @media (max-width: 800px) {
