@@ -136,6 +136,11 @@ function advanceCell(direction, {
 }
 
 export default function handleKeyDown(event, props) {
+  if (event.type === 'beforeinput') {
+    if (isAlphabetic(event.data)) {
+      return handleTextInput(event.data.toUpperCase(), 'forwards', props);
+    }
+  }
   if ([
     'ArrowLeft',
     'ArrowRight',
@@ -144,10 +149,6 @@ export default function handleKeyDown(event, props) {
   ].includes(event.key)) {
     event.preventDefault();
     return handleCursorKey(event.key, props);
-  }
-  if (isAlphabetic(event.key)) {
-    if (event.ctrlKey || event.altKey || event.metaKey) return;
-    return handleTextInput(event.key.toUpperCase(), 'forwards', props);
   }
   if (['Backspace', 'Delete'].includes(event.key)) {
     return handleTextInput(undefined, 'backwards', props);
