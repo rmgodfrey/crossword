@@ -21,8 +21,19 @@ export default function Crossword({ clues, headingLevel }) {
         [selectedClue] = clueState;
   const textState = useState(new Map());
   const inputRef = useRef(null);
-  const currentClueRef = useRef(null);
+  const clueFragmentRefs = useRef([]);
   const clueListRefs = useRef({});
+
+  const cells = createCells(clues, gridWidth, gridHeight);
+  const [acrossClues, downClues] = createClues(clues);
+  const clueFragments = [...acrossClues, ...downClues];
+  const currentFragment = getCurrentFragment(
+    clueFragments,
+    selectedCell,
+    selectedClue,
+    { cells, gridDimensions: { gridWidth, gridHeight } },
+  );
+
   useEffect(() => {
     function fireScrollEvent() {
       Object.keys(clueListRefs.current).forEach((clueList) => {
@@ -40,22 +51,30 @@ export default function Crossword({ clues, headingLevel }) {
       inputField.focus();
     }
   });
-
-  const cells = createCells(clues, gridWidth, gridHeight);
-  const [acrossClues, downClues] = createClues(clues);
-  const clueFragments = [...acrossClues, ...downClues];
+  useEffect(() => {
+    if (
+      // TODO: See if the media query can be stored in a variable that can be
+      // accessed here and in CSS
+      !window.matchMedia('max-width: 800px')
+      && clueFragments[currentFragment]
+    ) {
+      clueFragmentRefs.current[currentFragment].scrollIntoView(
+        { block: 'center' }
+      );
+    }
+  });
 
   const currentClue = (
     <p className="Crossword__current-clue">
     {
       selectedClue === null
       ? ''
-      : <Clue clueFragment={clueFragments[getCurrentFragment(
-        clueFragments,
-        selectedCell,
-        selectedClue,
-        { cells, gridDimensions: { gridWidth, gridHeight } },
-      )]}/>
+      : <Clue
+          cells={cells}
+          clues={clues}
+          clueFragment={clueFragments[currentFragment]}
+          cellText={textState[0]}
+        />
     }
     </p>
   );
@@ -81,7 +100,7 @@ export default function Crossword({ clues, headingLevel }) {
         <div className="Crossword__controls">
           <Controls
             cells={cells}
-            state={{ cellState, textState }}
+            state={{ cellState, clueState, textState }}
             refs={{ inputRef }}
           />
         </div>
@@ -91,9 +110,11 @@ export default function Crossword({ clues, headingLevel }) {
         Crossword__clue-container--across
       ">
         <ClueContainer
+          cells={cells}
+          clues={clues}
           clueFragments={acrossClues}
-          state={{ cellState, clueState }}
-          refs={{ clueListRefs, inputRef }}
+          state={{ cellState, clueState, textState }}
+          refs={{ clueFragmentRefs, clueListRefs, inputRef }}
           headingLevel={headingLevel + 1}
           direction="across"
         >
@@ -105,9 +126,11 @@ export default function Crossword({ clues, headingLevel }) {
         Crossword__clue-container--down
       ">
         <ClueContainer
+          cells={cells}
+          clues={clues}
           clueFragments={downClues}
-          state={{ cellState, clueState }}
-          refs={{ clueListRefs, inputRef }}
+          state={{ cellState, clueState, textState }}
+          refs={{ clueFragmentRefs, clueListRefs, inputRef }}
           headingLevel={headingLevel + 1}
           direction="down"
         >

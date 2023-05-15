@@ -1,3 +1,7 @@
 .Clue__clue-number {
   font-weight: bold;
 }
+
+.Clue__finished {
+  color: var(--finished-clue-text);
+}

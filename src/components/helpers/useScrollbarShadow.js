@@ -16,8 +16,9 @@ export default function useScrollbarShadow() {
     setClientHeight(event.target.clientHeight);
   };
 
-  const overflowTop = scrollTop > 0;
-  const overflowBottom = clientHeight < scrollHeight - scrollTop;
+  const scrollLeeway = 8;
+  const overflowTop = scrollTop > 0 + scrollLeeway;
+  const overflowBottom = clientHeight + scrollLeeway < scrollHeight - scrollTop;
 
   function getOverflows() {
     let overflow;

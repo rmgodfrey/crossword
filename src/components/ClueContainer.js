@@ -4,6 +4,8 @@ import './styles/ClueContainer.css';
 
 export default function ClueContainer({
   children,
+  cells,
+  clues,
   clueFragments,
   state,
   refs,
@@ -16,6 +18,8 @@ export default function ClueContainer({
         {children}
       </Heading>
       <ClueList
+        cells={cells}
+        clues={clues}
         clueFragments={clueFragments}
         state={state}
         refs={refs}

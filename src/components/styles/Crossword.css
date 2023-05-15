@@ -3,10 +3,11 @@
   grid-template-areas:
     "header header header"
     "main-left main-right-first main-right-second";
-  grid-template-columns: 1.8fr 1fr 1fr;
-  grid-template-rows: auto 578px;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-rows: auto 592px;
   max-width: 1125px;
-  gap: var(--grid-gap);
+  row-gap: var(--grid-row-gap);
+  column-gap: var(--grid-column-gap);
   padding: var(--grid-outer-padding);
 }
 
@@ -22,7 +23,7 @@
   grid-area: main-left;
   display: flex;
   flex-direction: column;
-  gap: 2vh;
+  gap: 8px;
 }
 
 .Crossword__clue-container {

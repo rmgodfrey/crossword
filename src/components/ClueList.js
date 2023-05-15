@@ -4,6 +4,8 @@ import useScrollbarShadow from './helpers/useScrollbarShadow';
 import Clue from './Clue';
 
 export default function ClueList({
+  cells,
+  clues,
   clueFragments,
   state,
   refs,
@@ -35,8 +37,14 @@ export default function ClueList({
             state,
             refs,
           })}
+          ref={node => refs.clueFragmentRefs.current.push(node)}
         >
-          <Clue clueFragment={clueFragment} />
+          <Clue
+            cells={cells}
+            clues={clues}
+            clueFragment={clueFragment}
+            cellText={state.textState[0]}
+          />
         </li>
       ))}
     </ul>

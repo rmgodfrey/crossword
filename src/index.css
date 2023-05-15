@@ -5,15 +5,21 @@
   --background-color-light2: #ffffff;
   --selected-clue-color: var(--background-color-dark);
   --selected-cell-color: #c97011;
-  --button-color: var(--selected-clue-color);
-  --button-color-hover: #deae7b;
-  --button-color-dark: var(--selected-cell-color);
-  --button-color-dark-hover: #7b450b;
+  --button-color: #e79237;
+  --button-color-hover: #c37726;
+  --button-color-dark: #6d3a04;
+  --button-color-dark-hover: #4f2a01;
+  --button-color-darker: #000000;
+  --button-color-darker-hover: #000000;
   --text-color: #000000;
   --text-color-light: var(--background-color-light2);
-  --grid-gap: 4vh;
-  --grid-outer-padding: 5vh;
+  --text-color-light-hover: #d9d9d9;
+  --finished-clue-text: #a3a3a3;
+  --grid-column-gap: 4vh;
+  --grid-row-gap: 2vh;
+  --grid-outer-padding: 4vh;
   --main-heading-size: 7vh;
+  --headings-font: 'Limelight', cursive;
 }
 
 *, *::before, *::after {
@@ -43,13 +49,13 @@ code {
 }
 
 h1, h2 {
-  font-family: 'Limelight', cursive;
+  font-family: var(--headings-font);
   font-weight: normal;
   margin: 0;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.3rem;
 }
 
 ul {

@@ -1,6 +1,6 @@
 .Controls {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 16px;
   padding-left: 0px;
   list-style-type: none;
@@ -9,42 +9,85 @@
 
 .Controls__wrapper {
   display: flex;
-  flex-direction: row;
-  gap: 2vh;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.Controls__instruction-wrapper {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 0px 16px;
+  border-radius: 20px;
+  text-shadow: 0.70px 0.70px var(--text-color);
+}
+
+.Controls__instruction {
+  margin: 0;
 }
 
 .Controls__control {
   appearance: none;
   border: none;
-  background: var(--button-color);
-  border: 2px solid black;
-  color: black;
+  background: inherit;
+  color: inherit;
+  border: 1px dotted var(--text-color);
   cursor: pointer;
-  padding: 4px 12px;
+  padding: 2px 12px;
+  margin-block: 8px;
   border-radius: 16px;
   font-weight: bold;
   width: max-content;
   font-size: unset;
+  box-shadow: 2px 2px;
+  text-shadow: inherit;
 }
 
-.Controls__control--letter {
-  background: var(--button-color);
+.Controls__instruction-wrapper--reveal .Controls__control,
+.Controls__instruction-wrapper--clear .Controls__control {
+  border-color: var(--text-color-light);
 }
 
-.Controls__control--grid {
-  background: var(--button-color-dark);
+.Controls__instruction-wrapper--check {
+  background: linear-gradient(to right, var(--button-color) 300px, 350px, transparent 400px);
   color: var(--text-color-light);
 }
 
-.Controls__control:hover {
-  transition: all ease-in 0.1s;
-}
-
-.Controls__control--letter:hover {
-  background: var(--button-color-hover);
-}
-
-.Controls__control--grid:hover {
-  background: var(--button-color-dark-hover);
+.Controls__instruction-wrapper--reveal {
+  background: linear-gradient(to right, var(--button-color-dark) 300px, 350px, transparent 400px);
   color: var(--text-color-light);
+}
+
+.Controls__instruction-wrapper--clear {
+  background: linear-gradient(to right, var(--button-color-darker) 300px, 350px, transparent 400px);
+  color: var(--text-color-light);
+}
+
+.Controls__instruction-wrapper .Controls__control:hover {
+  transition: background-color .1s ease-in;
+}
+
+.Controls__instruction-wrapper--check .Controls__control:hover {
+  background-color: var(--button-color-hover);
+}
+
+.Controls__instruction-wrapper--reveal .Controls__control:hover {
+  background-color: var(--button-color-dark-hover);
+}
+
+.Controls__instruction-wrapper--clear .Controls__control:hover {
+  background-color: var(--button-color-darker-hover);
+  color: var(--text-color-light-hover);
+}
+
+@media (max-width: 320px) {
+  .Controls {
+    flex-direction: column;
+  }
+  .Controls__wrapper {
+    flex-direction: column;
+  }
+  .Controls__instruction-wrapper {
+    align-items: start;
+  }
 }
