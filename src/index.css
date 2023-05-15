@@ -52,6 +52,7 @@ h1, h2 {
   font-family: var(--headings-font);
   font-weight: normal;
   margin: 0;
+  text-transform: lowercase;
 }
 
 h1 {
