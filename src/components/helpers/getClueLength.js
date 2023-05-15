@@ -13,7 +13,7 @@ export default function getClueLength(clue) {
     if (/[a-z]/i.test(char)) {
       length++;
     } else {
-      result += length + char;
+      result += length + (char === ' ' ? ',' : char);
       length = 0;
     }
   }
