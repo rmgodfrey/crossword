@@ -55,7 +55,7 @@ export default function Crossword({ clues, headingLevel }) {
     if (
       // TODO: See if the media query can be stored in a variable that can be
       // accessed here and in CSS
-      !window.matchMedia('max-width: 800px')
+      !(window.matchMedia('(max-width: 800px)').matches)
       && clueFragments[currentFragment]
     ) {
       clueFragmentRefs.current[currentFragment].scrollIntoView(
