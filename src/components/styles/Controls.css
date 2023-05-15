@@ -10,7 +10,7 @@
 .Controls__wrapper {
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 7px;
   flex-wrap: wrap;
 }
 
@@ -43,6 +43,7 @@
   font-size: unset;
   box-shadow: 2px 2px;
   text-shadow: inherit;
+  font-family: inherit;
 }
 
 .Controls__instruction-wrapper--reveal .Controls__control,
