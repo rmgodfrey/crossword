@@ -9,12 +9,14 @@
 
 .Controls__wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .Controls__instruction-wrapper {
   display: flex;
+  width: max-content;
   gap: 16px;
   align-items: center;
   padding: 0px 16px;
@@ -49,17 +51,17 @@
 }
 
 .Controls__instruction-wrapper--check {
-  background: linear-gradient(to right, var(--button-color) 300px, 350px, transparent 400px);
+  background: var(--button-color);
   color: var(--text-color-light);
 }
 
 .Controls__instruction-wrapper--reveal {
-  background: linear-gradient(to right, var(--button-color-dark) 300px, 350px, transparent 400px);
+  background: var(--button-color-dark);
   color: var(--text-color-light);
 }
 
 .Controls__instruction-wrapper--clear {
-  background: linear-gradient(to right, var(--button-color-darker) 300px, 350px, transparent 400px);
+  background: var(--button-color-darker);
   color: var(--text-color-light);
 }
 
