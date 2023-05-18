@@ -1,3 +1,3 @@
 # Rossword
 
-This is a crossword interface created using React. It is based on the crossword interface found in [The Guardian](https://www.theguardian.com/crosswords). It is still a work in progress, and is currently best viewed on a device with a physical keyboard, in Chrome. It can be found online at <https://rmgodfrey.github.io/crossword>.
+This is a crossword interface created using React, based on the crossword interface found in [The Guardian](https://www.theguardian.com/crosswords). My goal for this front-end project is simply to deliver a smooth user experience, supporting keyboard and tab navigation, mouse clicks (or touch-screen presses) on crossword cells and clues, the ability to check and reveal answers, etc. In other words, all the things a user would typically take for granted. The crossword data itself is stored as a JSON object. The Rossword is still a word in progress, and does not currently work properly on Android devices.
