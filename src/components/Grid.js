@@ -112,7 +112,7 @@ export default function Grid(props) {
           tabIndex="-1"
           value=""
           onKeyDown={(event) => handleKeyDown(event, props)}
-          onBeforeInput={(event) => handleKeyDown(event, props)}
+          onChange={(event) => handleKeyDown(event, props)}
         />
       </div>
     </div>

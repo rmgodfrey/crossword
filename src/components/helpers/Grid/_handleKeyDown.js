@@ -136,9 +136,13 @@ function advanceCell(direction, {
 }
 
 export default function handleKeyDown(event, props) {
-  if (event.type === 'beforeinput') {
-    if (isAlphabetic(event.data)) {
-      return handleTextInput(event.data.toUpperCase(), 'forwards', props);
+  if (event.type === 'change') {
+    if (isAlphabetic(event.target.value)) {
+      return handleTextInput(
+        event.target.value.toUpperCase(),
+        'forwards',
+        props
+      );
     }
   }
   if ([
