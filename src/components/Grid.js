@@ -110,6 +110,9 @@ export default function Grid(props) {
           className="Grid__input-field"
           type="text"
           tabIndex="-1"
+          maxLength="1"
+          autoComplete="off"
+          spellCheck="false"
           value=""
           onKeyDown={(event) => handleKeyDown(event, props)}
           onChange={(event) => handleKeyDown(event, props)}
