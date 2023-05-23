@@ -1,6 +1,7 @@
 import Cell from './Cell';
 import {
   handleKeyDown,
+  handleChange,
 } from './helpers/Grid/index';
 import './styles/Grid.css';
 
@@ -115,7 +116,7 @@ export default function Grid(props) {
           spellCheck="false"
           value=""
           onKeyDown={(event) => handleKeyDown(event, props)}
-          onChange={(event) => handleKeyDown(event, props)}
+          onChange={(event) => handleChange(event, props)}
         />
       </div>
     </div>
