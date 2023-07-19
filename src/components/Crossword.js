@@ -16,9 +16,9 @@ export default function Crossword({
   gridHeight = gridWidth,
   headingLevel = 1,
 }) {
-  const [selectedClue, setSelectedClue] = useState(null);
-  const [selectedCell, setSelectedCell] = useState(null);
-  const [cellText, setCellText] = useState(new Map());
+  const [selectedClueId, setSelectedClueId] = useState(null);
+  const [selectedCellId, setSelectedCellId] = useState(null);
+  const [cellTextMap, setCellTextMap] = useState(new Map());
 
   /*
     const inputRef = useRef(null);
@@ -91,9 +91,11 @@ export default function Crossword({
         {currentClue}
         <Grid
           clues={clues}
-          selectedClue={selectedClue}
-          selectedCell={selectedCell}
-          cellText={cellText}
+          gridWidth={gridWidth}
+          gridHeight={gridHeight}
+          selectedClueId={selectedClueId}
+          selectedCellId={selectedCellId}
+          cellTextMap={cellTextMap}
           onCellClick={handleCellClick}
           onKeyDown={handleKeyDown}
           onTextInput={handleTextInput}
