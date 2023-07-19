@@ -52,15 +52,29 @@ function getPosition(
   }
 }
 
-export default function Grid(props) {
-  const {
-    cells,
-    gridDimensions: { gridWidth, gridHeight },
-    state: {
-      cellState: [selectedCell],
-    },
-    refs,
-  } = props;
+export default function Grid({
+  clues,
+  gridWidth,
+  gridHeight,
+  selectedClueId,
+  selectedCellId,
+  cellTextMap,
+  onCellClick,
+  onKeyDown,
+  onTextInput,
+}) {
+  function createCells(
+    clues,
+    gridWidth,
+    gridHeight,
+    selectedClueId,
+    selectedCellId,
+    cellTextMap,
+    onCellClick,
+  ) {
+
+  }
+
   return (
     <div className="Grid">
       <svg

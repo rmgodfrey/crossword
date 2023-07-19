@@ -1,31 +1,31 @@
 import { useState, useRef, useEffect } from 'react';
-import Grid from './Grid';
-import Controls from './Controls';
-import ClueContainer from './ClueContainer';
+import Cell from './Cell';
 import Clue from './Clue';
+import ClueContainer from './ClueContainer';
+import ClueList from './ClueList';
+import Controls from './Controls';
+import Grid from './Grid';
 import Heading from './Heading';
-import {
-  createCells,
-  createClues,
-} from './helpers/Crossword/index';
+
 import getCurrentFragment from './helpers/getCurrentFragment';
 import './styles/Crossword.css';
 
-const gridWidth = 15;
-const gridHeight = gridWidth;
+export default function Crossword({
+  clues,
+  gridWidth,
+  gridHeight = gridWidth,
+  headingLevel = 1,
+}) {
+  const [selectedClue, setSelectedClue] = useState(null);
+  const [selectedCell, setSelectedCell] = useState(null);
+  const [cellText, setCellText] = useState(new Map());
 
-export default function Crossword({ clues, headingLevel }) {
-  const cellState = useState(null),
-        [selectedCell] = cellState;
-  const clueState = useState(null),
-        [selectedClue] = clueState;
-  const textState = useState(new Map());
-  const inputRef = useRef(null);
-  const clueFragmentRefs = useRef([]);
-  const clueListRefs = useRef({});
+  /*
+    const inputRef = useRef(null);
+    const clueFragmentRefs = useRef([]);
+    const clueListRefs = useRef({});
+  */
 
-  const cells = createCells(clues, gridWidth, gridHeight);
-  const [acrossClues, downClues] = createClues(clues);
   const clueFragments = [...acrossClues, ...downClues];
   const currentFragment = getCurrentFragment(
     clueFragments,
@@ -81,62 +81,51 @@ export default function Crossword({ clues, headingLevel }) {
 
   return (
     <div className="Crossword">
-      <Heading headingLevel={headingLevel} className="Crossword__heading">
+      <Heading
+        className="Crossword__heading"
+        headingLevel={headingLevel}
+      >
         Rossword
       </Heading>
       <div className="Crossword__grid-and-controls">
         {currentClue}
-        <div className="Crossword__grid">
-          <Grid
-            cells={cells}
-            clues={clues}
-            clueFragments={clueFragments}
-            gridDimensions={{ gridWidth, gridHeight }}
-            state={{ cellState, clueState, textState }}
-            refs={{ inputRef }}
-          />
-        </div>
+        <Grid
+          clues={clues}
+          selectedClue={selectedClue}
+          selectedCell={selectedCell}
+          cellText={cellText}
+          onCellClick={handleCellClick}
+          onKeyDown={handleKeyDown}
+          onTextInput={handleTextInput}
+        />
         {currentClue}
-        <div className="Crossword__controls">
-          <Controls
-            cells={cells}
-            state={{ cellState, clueState, textState }}
-            refs={{ inputRef }}
+        <Controls
+          onControlClick={handleControlClick}
+        />
+      </div>
+      {['across', 'down'].map(direction => (
+        <ClueContainer
+          key={direction}
+          direction={direction}
+        >
+          <ClueList
+            clues={clues}
+            onClueClick={handleClueClick}
           />
-        </div>
-      </div>
-      <div className="
-        Crossword__clue-container
-        Crossword__clue-container--across
-      ">
-        <ClueContainer
-          cells={cells}
-          clues={clues}
-          clueFragments={acrossClues}
-          state={{ cellState, clueState, textState }}
-          refs={{ clueFragmentRefs, clueListRefs, inputRef }}
-          headingLevel={headingLevel + 1}
-          direction="across"
-        >
-          Across
         </ClueContainer>
-      </div>
-      <div className="
-        Crossword__clue-container
-        Crossword__clue-container--down
-      ">
-        <ClueContainer
-          cells={cells}
-          clues={clues}
-          clueFragments={downClues}
-          state={{ cellState, clueState, textState }}
-          refs={{ clueFragmentRefs, clueListRefs, inputRef }}
-          headingLevel={headingLevel + 1}
-          direction="down"
-        >
-          Down
-        </ClueContainer>
-      </div>
+      ))}
     </div>
   );
 }
+
+function createCells() {}
+// function createClues(clueGroups) {
+//   let clues = [];
+//   for (let clueGroup of clueGroups) {
+//     for (let clue of clueGroups.clues
+//       ) {
+//       clues.push({ ...clue, clueGroup: clueGroup });
+//     }
+//   }
+//   return clues;
+// }
