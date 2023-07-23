@@ -52,6 +52,16 @@ function getPosition(
   }
 }
 
+function multiplier(n, gridWidth, direction) {
+  if (direction === 'across') {
+    return n;
+  } else if (direction === 'down') {
+    return gridWidth * n;
+  } else {
+    throw new Error('`direction` must be either "across" or "down"');
+  }
+}
+
 export default function Grid({
   clues,
   gridWidth,
@@ -63,16 +73,54 @@ export default function Grid({
   onKeyDown,
   onTextInput,
 }) {
-  function createCells(
-    clues,
-    gridWidth,
-    gridHeight,
-    selectedClueId,
-    selectedCellId,
-    cellTextMap,
-    onCellClick,
-  ) {
+  function getCellPositions() {
+    const cellPositions = [];
+    for (const clue of clues) {
+      for (const fragment of clue.fragments) {
+        for (let i = 0; i <= getLength(fragment.answer); i++ ) {
+          cellPositions.push(fragment.start + multiplier(
+            i, gridWidth, clue.direction
+          ));
+        }
+      }
+    }
+    return cellPositions;
+  }
 
+  function createCells() {
+    const cellPositions = getCellPositions();
+    const cells = [];
+    for (let i = 0; i <= gridWidth * gridHeight; i++) {
+      if (cellPositions.includes(i)) {
+        cells.push(
+          <Cell
+            key={i}
+            position={{
+              x: getPosition(i, 'x'),
+              y: getPosition(i, 'y')
+            }}
+            selected={
+              belongsToSelectedClue(i) ? 'clue' :
+              i === selectedCellId ? 'cell' :
+              null
+            }
+            clueNumber={getClueNumber(i)}
+            onClick={onCellClick(i)}
+          >
+            {cellTextMap.get(i)}
+          </Cell>
+        );
+      }
+    }
+    return cells;
+  }
+
+  function belongsToSelectedClue(cellId) {
+    if (selectedClueId === null) return false;
+    const getClueLength = clues[selectedClueId].fragments.reduce(
+      (total, fragment) => total + getLength(fragment.answer),
+      0
+    )
   }
 
   return (
