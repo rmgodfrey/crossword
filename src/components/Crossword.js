@@ -44,13 +44,17 @@ export default function Crossword({ clues, headingLevel }) {
     fireScrollEvent();
     return () => window.removeEventListener('resize', fireScrollEvent);
   }, []);
+
   useEffect(() => {
-    if (selectedCell !== null) {
+    if (selectedCell === null) {
+      clueFragmentRefs.current[0].click();
+    } else {
       const inputField = inputRef.current.querySelector('.Grid__input-field');
       inputRef.current.style.display = 'block';
       inputField.focus();
     }
   });
+
   useEffect(() => {
     if (
       // TODO: See if the media query can be stored in a variable that can be

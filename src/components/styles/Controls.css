@@ -67,15 +67,18 @@
   transition: background-color .1s ease-in;
 }
 
-.Controls__instruction-wrapper--check .Controls__control:hover {
+.Controls__instruction-wrapper--check .Controls__control:hover,
+.Controls__instruction-wrapper--check .Controls__control:focus {
   background-color: var(--button-color-hover);
 }
 
-.Controls__instruction-wrapper--reveal .Controls__control:hover {
+.Controls__instruction-wrapper--reveal .Controls__control:hover,
+.Controls__instruction-wrapper--reveal .Controls__control:focus {
   background-color: var(--button-color-dark-hover);
 }
 
-.Controls__instruction-wrapper--clear .Controls__control:hover {
+.Controls__instruction-wrapper--clear .Controls__control:hover,
+.Controls__instruction-wrapper--clear .Controls__control:focus {
   background-color: var(--button-color-darker-hover);
   color: var(--text-color-light-hover);
 }
