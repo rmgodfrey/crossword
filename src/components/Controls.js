@@ -21,7 +21,7 @@ function Controls(props) {
           Controls__instruction-wrapper--${instruction.className}
         `}>
           <p className="Controls__instruction">
-            <strong>{instruction.text}</strong>
+            <strong>{instruction.text}:</strong>
           </p>
           <ul className="Controls">
             {targets.map((target, i) => (
@@ -32,9 +32,7 @@ function Controls(props) {
                     target: target.targetMode,
                     ...props,
                   })}
-                  className={`
-                    Controls__control
-                  `}
+                  className={"Controls__control"}
                 >
                   {target.text}
                 </button>
