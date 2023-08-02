@@ -15,10 +15,6 @@
   outline: none;
 }
 
-.Crossword__heading {
-  grid-area: header;
-}
-
 .Crossword__grid-and-controls {
   grid-area: main-left;
   display: flex;

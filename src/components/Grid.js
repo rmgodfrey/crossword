@@ -1,126 +1,110 @@
 import Cell from './Cell';
-import {
-  handleKeyDown,
-  handleChange,
-} from './helpers/Grid/index';
 import './styles/Grid.css';
 
-const spaceBetweenCells = 1;
-const cellWidth = 31;
-const cellHeight = cellWidth;
-
-function calculateExtent(cellExtent, numberOfCells, spaceBetweenCells) {
-  return cellExtent * numberOfCells + spaceBetweenCells * (numberOfCells + 1);
-}
-
-function getInputPosition(
-  cellNumber,
-  { gridWidth, gridHeight },
-  axis
-) {
-  const numberOfCells = axis === 'y' ? gridHeight : gridWidth;
-  if (cellNumber === null) {
-    return 'unset';
-  } else {
-    return `${
-      getPosition(cellNumber, gridWidth, axis)
-      / calculateExtent(cellHeight, numberOfCells, spaceBetweenCells)
-      * 100
-    }%`;
-  }
-}
-
-function getPosition(
-  cellNumber,
-  gridWidth,
-  axis
-) {
-  if (axis === 'x') {
-    return (
-      spaceBetweenCells
-      + (cellNumber % gridWidth) * (cellWidth + spaceBetweenCells)
-    );
-  } else if (axis === 'y') {
-    return (
-      spaceBetweenCells
-      + (
-        Math.floor(cellNumber / gridWidth)
-        * (cellHeight + spaceBetweenCells)
-      )
-    );
-
-  }
-}
-
-function multiplier(n, gridWidth, direction) {
-  if (direction === 'across') {
-    return n;
-  } else if (direction === 'down') {
-    return gridWidth * n;
-  } else {
-    throw new Error('`direction` must be either "across" or "down"');
-  }
-}
-
 export default function Grid({
-  clues,
+  cells,
   gridWidth,
   gridHeight,
-  selectedClueId,
-  selectedCellId,
+  selectedClue,
+  selectedCell,
   cellTextMap,
   onCellClick,
-  onKeyDown,
-  onTextInput,
+  helpers: {
+    containsCell,
+    step,
+    getRowOrColumn,
+    getColumn,
+    getRow,
+    getExtremeCell,
+    dimensionLengthInCells,
+  }
 }) {
-  function getCellPositions() {
-    const cellPositions = [];
-    for (const clue of clues) {
-      for (const fragment of clue.fragments) {
-        for (let i = 0; i <= getLength(fragment.answer); i++ ) {
-          cellPositions.push(fragment.start + multiplier(
-            i, gridWidth, clue.direction
-          ));
-        }
-      }
-    }
-    return cellPositions;
+  const cellLength = 31;
+  const spaceBetweenCells = 1;
+
+  // Returns true if `cell` is at {beginning, end} of a {column, row}, and false
+  // otherwise. If `orientation` is 'across', then result is based on column, and
+  // if `orientation` is 'down, result is based on row. If `edge` is 'start', then
+  // result is based on beginning, and if `edge` is 'end', result is based on
+  // end.
+  function isAtEdgeOfGrid(cell, orientation, edge) {
+    const extremity = getExtremeCell(orientation, edge);
+    return getRowOrColumn(cell, orientation) === extremity;
   }
 
-  function createCells() {
-    const cellPositions = getCellPositions();
-    const cells = [];
-    for (let i = 0; i <= gridWidth * gridHeight; i++) {
-      if (cellPositions.includes(i)) {
-        cells.push(
+  function isStartOfCellSequence(cell, cells) {
+    if (!cells.includes(cell)) {
+      throw new Error('`cellPositions` must include `cellId`');
+    }
+    return ['across', 'down'].some(orientation => (
+      cells.includes(cell + step(1, orientation))
+      && !isAtEdgeOfGrid(cell, orientation, 'end')
+    ) && (
+      isAtEdgeOfGrid(cell, orientation, 'start')
+      || !cells.includes(cell - step(1, orientation))
+    ));
+  }
+
+  function getCellPosition(cell, orientation) {
+    if (orientation === 'across') {
+      return (
+        spaceBetweenCells
+        + getColumn(cell) * (cellLength + spaceBetweenCells)
+      );
+    } else if (orientation === 'down') {
+      return (
+        spaceBetweenCells
+        + (
+          getRow(cell)
+          * (cellLength + spaceBetweenCells)
+        )
+      );
+    } else {
+      throw new Error('`orientation` must be either "across" or "down"');
+    }
+  }
+
+  function belongsToSelectedClue(cell) {
+    if (selectedClue === null) return false;
+    return containsCell(selectedClue, cell);
+  }
+
+  function dimensionLengthInPixels(orientation) {
+    const numberOfCells = dimensionLengthInCells(orientation);
+    return cellLength * numberOfCells
+           + spaceBetweenCells * (numberOfCells + 1);
+  }
+
+  function createCellComponents() {
+    const cellComponents = [];
+    let currentClueNumber = 1;
+    for (let i = 0; i < gridWidth * gridHeight; i++) {
+      if (cells.includes(i)) {
+        let clueNumber;
+        if (isStartOfCellSequence(i, cells)) {
+          clueNumber = currentClueNumber++;
+        }
+        cellComponents.push(
           <Cell
             key={i}
             position={{
-              x: getPosition(i, 'x'),
-              y: getPosition(i, 'y')
+              x: getCellPosition(i, 'across'),
+              y: getCellPosition(i, 'down')
             }}
             selected={
+              i === selectedCell ? 'cell' :
               belongsToSelectedClue(i) ? 'clue' :
-              i === selectedCellId ? 'cell' :
               null
             }
-            clueNumber={getClueNumber(i)}
-            onClick={onCellClick(i)}
+            clueNumber={clueNumber}
+            onClick={() => onCellClick(i)}
           >
             {cellTextMap.get(i)}
           </Cell>
         );
       }
     }
-    return cells;
-  }
-
-  function belongsToSelectedClue(cellId) {
-    if (selectedClueId === null) return false;
-    const getClueLength = clues[selectedClueId].fragments.reduce(
-      (total, fragment) => total + getLength(fragment.answer),
-      0
-    )
+    return cellComponents;
   }
 
   return (
@@ -130,28 +114,19 @@ export default function Grid({
         viewBox={`
           0
           0
-          ${calculateExtent(cellWidth, gridWidth, spaceBetweenCells)}
-          ${calculateExtent(cellHeight, gridHeight, spaceBetweenCells)}
+          ${dimensionLengthInPixels('across')}
+          ${dimensionLengthInPixels('down')}
         `}
       >
         <rect
           x="0"
           y="0"
-          width={calculateExtent(cellWidth, gridWidth, spaceBetweenCells)}
-          height={calculateExtent(cellHeight, gridHeight, spaceBetweenCells)}
+          width={dimensionLengthInPixels('across')}
+          height={dimensionLengthInPixels('down')}
         />
-        {cells.map(({ clueNumber }, cellNumber) => (
-          <Cell
-            key={cellNumber}
-            x={getPosition(cellNumber, gridWidth, 'x')}
-            y={getPosition(cellNumber, gridWidth, 'y')}
-            cellNumber={cellNumber}
-            clueNumber={clueNumber}
-            {...props}
-          />
-        ))}
+        {createCellComponents()}
       </svg>
-      <div
+      {/*<div
         className="Grid__input-wrapper"
         ref={refs.inputRef}
         style={{
@@ -180,7 +155,7 @@ export default function Grid({
           onKeyDown={(event) => handleKeyDown(event, props)}
           onChange={(event) => handleChange(event, props)}
         />
-      </div>
+      </div>*/}
     </div>
   );
 }

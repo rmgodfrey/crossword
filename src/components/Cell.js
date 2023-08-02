@@ -1,52 +1,40 @@
-import {
-  handleClick,
-} from './helpers/Cell/index';
 import './styles/Cell.css';
 
-function belongsToSelectedClue(cellNumber, selectedClue, cells) {
-  const clues = Object.values(cells[cellNumber].clues);
-  const clueIds = clues.map(clue => clue.clueId);
-  return clueIds.includes(selectedClue);
-}
-
-export default function Cell(props) {
-  const {
-    x,
-    y,
-    cellNumber,
-    clueNumber,
-    cells,
-    state: {
-      cellState: [selectedCell],
-      clueState: [selectedClue],
-      textState: [cellText],
-    },
-  } = props;
-  const cellIsSelected = cellNumber === selectedCell;
-  const cellBelongsToSelectedClue = belongsToSelectedClue(
-    cellNumber, selectedClue, cells
-  )
+export default function Cell({
+  position,
+  selected,
+  clueNumber,
+  onClick,
+  children,
+}) {
   return (
     <g
-      onClick={() => handleClick(props, null)}
+      onClick={onClick}
       onMouseDown={(event) => event.preventDefault()}
       tabIndex="-1"
     >
-      <rect x={x} y={y} width="31" height="31" className={
-        'Cell'
-        + (cellIsSelected ? ' Cell--selected-cell' : '')
-        + (cellBelongsToSelectedClue ? ' Cell--selected-clue' : '')
+      <rect x={position.x} y={position.y} width="31" height="31" className={
+        'Cell' + (
+          selected === 'cell' ? ' Cell--selected-cell' :
+          selected === 'clue' ? ' Cell--selected-clue' : ''
+        )
       } />
       {clueNumber && (
-        <text x={x + 1} y={y + 9} className="Cell__number">{clueNumber}</text>
+        <text
+          x={position.x + 1}
+          y={position.y + 9}
+          className="Cell__number"
+        >
+          {clueNumber}
+        </text>
       )}
       <text
-        x={x + 15.5}
-        y={y + 20.925}
+        x={position.x + 15.5}
+        y={position.y + 20.925}
         textAnchor="middle"
         className="Cell__text"
       >
-        {cellText.get(cellNumber)}
+        {children}
       </text>
     </g>
   );

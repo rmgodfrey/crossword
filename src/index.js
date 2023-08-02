@@ -1,22 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Crossword from './components/Crossword';
-import clues from './data/clues.json';
+import App from './components/App';
+import crosswordData from './data/crosswordData.json';
 import reportWebVitals from './reportWebVitals';
-
-// clueGroups.sort((a, b) => {
-//   if (a.direction === 'across' && b.direction === 'down') return -1;
-//   if (a.direction === 'down' && b.direction === 'across') return 1;
-//   return a.fragments[0].start - b.fragments[0].start;
-// });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Crossword
-      clues={clues}
-      gridWidth={15}
+    <App
+      crosswordData={crosswordData}
     />
   </React.StrictMode>
 );
