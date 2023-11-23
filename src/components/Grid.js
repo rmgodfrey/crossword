@@ -1,110 +1,199 @@
+import {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import Cell from './Cell';
 import './styles/Grid.css';
+import { bindMethods } from '../helpers/index';
 
-export default function Grid({
-  cells,
-  gridWidth,
-  gridHeight,
-  selectedClue,
-  selectedCell,
-  cellTextMap,
-  onCellClick,
-  helpers: {
-    containsCell,
-    step,
-    getRowOrColumn,
-    getColumn,
-    getRow,
-    getExtremeCell,
-    dimensionLengthInCells,
+const cellLength = 31;
+const spaceBetweenCells = 1;
+// `gridOverflow` necessary for hyphen separators to hang off end of grid.
+const gridOverflow = 10;
+
+function getCellPositionX(cell) {
+  return (
+    spaceBetweenCells
+    + cell.column * (cellLength + spaceBetweenCells)
+  );
+}
+
+function getCellPositionY(cell) {
+  return (
+    spaceBetweenCells
+    + (
+      cell.row
+      * (cellLength + spaceBetweenCells)
+    )
+  );
+}
+
+function getCellPosition(cell, orientation) {
+  if (orientation === 'across') {
+    return getCellPositionX(cell);
+  } else if (orientation === 'down') {
+    return getCellPositionY(cell);
+  } else if (!orientation) {
+    return {
+      x: getCellPositionX(cell),
+      y: getCellPositionY(cell),
+    };
+  } else {
+    throw new Error(
+      'If provided, `orientation` must be either "across" or "down".'
+    );
   }
+}
+
+function GridSeparator({
+  mainAxisExtent,
+  mainAxisOffset,
+  crossAxisExtent,
+  crossAxisOffset,
+  cellPosition,
+  orientation,
+  className
 }) {
-  const cellLength = 31;
-  const spaceBetweenCells = 1;
-
-  // Returns true if `cell` is at {beginning, end} of a {column, row}, and false
-  // otherwise. If `orientation` is 'across', then result is based on column, and
-  // if `orientation` is 'down, result is based on row. If `edge` is 'start', then
-  // result is based on beginning, and if `edge` is 'end', result is based on
-  // end.
-  function isAtEdgeOfGrid(cell, orientation, edge) {
-    const extremity = getExtremeCell(orientation, edge);
-    return getRowOrColumn(cell, orientation) === extremity;
+  let mainAxis, crossAxis, width, height;
+  if (orientation === 'across') {
+    mainAxis  = 'x';
+    crossAxis = 'y';
+    width = mainAxisExtent;
+    height = crossAxisExtent;
   }
-
-  function isStartOfCellSequence(cell, cells) {
-    if (!cells.includes(cell)) {
-      throw new Error('`cellPositions` must include `cellId`');
-    }
-    return ['across', 'down'].some(orientation => (
-      cells.includes(cell + step(1, orientation))
-      && !isAtEdgeOfGrid(cell, orientation, 'end')
-    ) && (
-      isAtEdgeOfGrid(cell, orientation, 'start')
-      || !cells.includes(cell - step(1, orientation))
-    ));
+  if (orientation === 'down') {
+    mainAxis  = 'y';
+    crossAxis = 'x';
+    width = crossAxisExtent;
+    height = mainAxisExtent;
   }
-
-  function getCellPosition(cell, orientation) {
-    if (orientation === 'across') {
-      return (
-        spaceBetweenCells
-        + getColumn(cell) * (cellLength + spaceBetweenCells)
-      );
-    } else if (orientation === 'down') {
-      return (
-        spaceBetweenCells
-        + (
-          getRow(cell)
-          * (cellLength + spaceBetweenCells)
-        )
-      );
-    } else {
-      throw new Error('`orientation` must be either "across" or "down"');
-    }
+  const rectProps = {
+    [mainAxis]: cellPosition[mainAxis] + cellLength - mainAxisOffset,
+    [crossAxis]: cellPosition[crossAxis] + crossAxisOffset,
+    width,
+    height,
   }
+  return <rect className={className} {...rectProps} />
+}
 
-  function belongsToSelectedClue(cell) {
-    if (selectedClue === null) return false;
-    return containsCell(selectedClue, cell);
+function GridSpaceSeparator({ cellPosition, orientation }) {
+  const mainAxisExtent = 3;
+  return <GridSeparator
+    mainAxisExtent={mainAxisExtent}
+    mainAxisOffset={mainAxisExtent}
+    crossAxisExtent={cellLength}
+    crossAxisOffset={0}
+    {...{cellPosition, orientation}}
+  />;
+}
+
+function GridHyphenSeparator({
+  cellPosition,
+  orientation,
+  selected,
+}) {
+  const mainAxisExtent = 12;
+  const className = 'Grid__hyphen-separator';
+  const classes = `${className} ${className}--selected-${selected}`
+  return <GridSeparator
+    mainAxisExtent={mainAxisExtent}
+    mainAxisOffset={mainAxisExtent / 2}
+    crossAxisExtent={2}
+    crossAxisOffset={cellLength / 2}
+    className={classes}
+    {...{cellPosition, orientation}}
+  />;
+}
+
+export default forwardRef(function Grid({
+  crossword,
+  selectedCell,
+  selectedClueGroup,
+  cellText,
+  onCellClick,
+  onKeyDown,
+  onInputChange,
+}, parentRef) {
+  const cursorRef = useRef(null);
+  const cursorRefCallback = useCallback((node) => {
+    cursorRef.current = node;
+    focusCursorNode();
+  }, []);
+  useImperativeHandle(parentRef, () => {
+    return {
+      focus() {
+        focusCursorNode();
+      }
+    };
+  }, []);
+
+  const { clueGroups } = bindMethods(crossword);
+
+  function focusCursorNode() {
+    cursorRef.current?.focus();
   }
 
   function dimensionLengthInPixels(orientation) {
-    const numberOfCells = dimensionLengthInCells(orientation);
-    return cellLength * numberOfCells
-           + spaceBetweenCells * (numberOfCells + 1);
+    const numberOfCells = crossword.dimensionLengthInCells(orientation);
+    return (
+      cellLength * numberOfCells
+      + spaceBetweenCells * (numberOfCells + 1)
+    );
   }
 
-  function createCellComponents() {
-    const cellComponents = [];
-    let currentClueNumber = 1;
-    for (let i = 0; i < gridWidth * gridHeight; i++) {
-      if (cells.includes(i)) {
-        let clueNumber;
-        if (isStartOfCellSequence(i, cells)) {
-          clueNumber = currentClueNumber++;
-        }
-        cellComponents.push(
-          <Cell
-            key={i}
-            position={{
-              x: getCellPosition(i, 'across'),
-              y: getCellPosition(i, 'down')
-            }}
-            selected={
-              i === selectedCell ? 'cell' :
-              belongsToSelectedClue(i) ? 'clue' :
-              null
-            }
-            clueNumber={clueNumber}
-            onClick={() => onCellClick(i)}
-          >
-            {cellTextMap.get(i)}
-          </Cell>
+  function getInputPosition(orientation) {
+    if (selectedCell === null) {
+      return '';
+    } else {
+      return `${
+        getCellPosition(selectedCell, orientation)
+        / dimensionLengthInPixels(orientation)
+        * 100
+      }%`;
+    }
+  }
+
+  function belongsToSelectedClueGroup(cell) {
+    if (selectedClueGroup === null) return false;
+    return selectedClueGroup.containsCell(cell);
+  }
+
+  const gridSeparators = [];
+  for (const clueGroup of clueGroups) {
+    const orientation = clueGroup.orientation;
+    const separatorChars = clueGroup.answer.split(/[a-z]/i);
+    const cells = [null, ...clueGroup.getCells()];
+    for (const [i, cell] of cells.entries()) {
+      if (cell) {
+        const cellPosition = getCellPosition(cell);
+        const inSelectedCell = selectedCell === cell;
+        const inSelectedClueGroup = Boolean(
+          selectedClueGroup?.containsCell(cell)
         );
+        const selected = (
+          inSelectedCell ? 'cell' :
+          inSelectedClueGroup ? 'clue-group' : ''
+        );
+
+        function addGridSeparator(SeparatorType) {
+          gridSeparators.push(<SeparatorType
+            key={`${cell.number}-${SeparatorType.name}`}
+            cellPosition={cellPosition}
+            orientation={orientation}
+            selected={selected}
+          />);
+        }
+
+        if (separatorChars[i].includes(' ')) {
+          addGridSeparator(GridSpaceSeparator);
+        }
+        if (separatorChars[i].includes('-')) {
+          addGridSeparator(GridHyphenSeparator);
+        }
       }
     }
-    return cellComponents;
   }
 
   return (
@@ -114,9 +203,17 @@ export default function Grid({
         viewBox={`
           0
           0
-          ${dimensionLengthInPixels('across')}
-          ${dimensionLengthInPixels('down')}
+          ${dimensionLengthInPixels('across') + gridOverflow}
+          ${dimensionLengthInPixels('down') + gridOverflow}
         `}
+        style={{
+          marginRight: `${-(
+            (gridOverflow / dimensionLengthInPixels('across')) * 100
+          )}%`,
+          marginBottom: `${-(
+            (gridOverflow / dimensionLengthInPixels('down')) * 100
+          )}%`,
+        }}
       >
         <rect
           x="0"
@@ -124,24 +221,33 @@ export default function Grid({
           width={dimensionLengthInPixels('across')}
           height={dimensionLengthInPixels('down')}
         />
-        {createCellComponents()}
+        {crossword.cells.map((cell) => (
+          <Cell
+            key={cell.number}
+            position={{
+              x: getCellPosition(cell, 'across'),
+              y: getCellPosition(cell, 'down')
+            }}
+            selected={
+              cell === selectedCell ? 'cell' :
+              belongsToSelectedClueGroup(cell) ? 'clue-group' :
+              null
+            }
+            clueNumber={cell.clueNumber}
+            onClick={() => onCellClick(cell)}
+          >
+            {cellText.get(cell)}
+          </Cell>
+        ))}
+        <g>{gridSeparators}</g>
       </svg>
-      {/*<div
+      {selectedCell && <div
         className="Grid__input-wrapper"
-        ref={refs.inputRef}
         style={{
-          width: `${100 / gridWidth}%`,
-          height: `${100 / gridHeight}%`,
-          top: getInputPosition(
-            selectedCell,
-            { gridWidth, gridHeight },
-            'y'
-          ),
-          left: getInputPosition(
-            selectedCell,
-            { gridWidth, gridHeight },
-            'x'
-          ),
+          width: `${100 / crossword.gridWidth}%`,
+          height: `${100 / crossword.gridHeight}%`,
+          top: getInputPosition('down'),
+          left: getInputPosition('across'),
         }}
       >
         <input
@@ -152,10 +258,11 @@ export default function Grid({
           autoComplete="off"
           spellCheck="false"
           value=""
-          onKeyDown={(event) => handleKeyDown(event, props)}
-          onChange={(event) => handleChange(event, props)}
+          onKeyDown={onKeyDown}
+          onChange={onInputChange}
+          ref={cursorRefCallback}
         />
-      </div>*/}
+      </div>}
     </div>
   );
-}
+});

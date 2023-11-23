@@ -8,15 +8,11 @@ export default function Cell({
   children,
 }) {
   return (
-    <g
-      onClick={onClick}
-      onMouseDown={(event) => event.preventDefault()}
-      tabIndex="-1"
-    >
+    <g onClick={onClick}>
       <rect x={position.x} y={position.y} width="31" height="31" className={
         'Cell' + (
           selected === 'cell' ? ' Cell--selected-cell' :
-          selected === 'clue' ? ' Cell--selected-clue' : ''
+          selected === 'clue-group' ? ' Cell--selected-clue-group' : ''
         )
       } />
       {clueNumber && (

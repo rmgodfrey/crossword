@@ -1,4 +1,4 @@
-function Heading({ headingLevel, className, children }) {
+export default function Heading({ headingLevel, className, children }) {
   const HeadingElement = (
     [1, 2, 3, 4, 5, 6].includes(headingLevel)
     ? `h${headingLevel}`
@@ -6,7 +6,5 @@ function Heading({ headingLevel, className, children }) {
   );
   return (
     <HeadingElement className={className}>{children}</HeadingElement>
-  )
+  );
 }
-
-export default Heading;

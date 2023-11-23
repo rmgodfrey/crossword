@@ -9,23 +9,18 @@
 
 .Controls__wrapper {
   display: flex;
-  flex-direction: row;
-  gap: 7px;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .Controls__instruction-wrapper {
   display: flex;
-  width: max-content;
   gap: 16px;
   align-items: center;
-  padding: 0px 16px;
-  border-radius: 20px;
-  text-shadow: 0.70px 0.70px var(--text-color);
 }
 
 .Controls__instruction {
   margin: 0;
+  min-width: 3.5rem;
 }
 
 .Controls__control {
@@ -41,7 +36,7 @@
   font-weight: bold;
   width: max-content;
   font-size: unset;
-  box-shadow: 2px 2px;
+  box-shadow: 2px 2px var(--text-color);
   text-shadow: inherit;
   font-family: inherit;
 }
@@ -51,17 +46,17 @@
   border-color: var(--text-color-light);
 }
 
-.Controls__instruction-wrapper--check {
+.Controls__instruction-wrapper--check .Controls__control {
   background: var(--button-color);
   color: var(--text-color-light);
 }
 
-.Controls__instruction-wrapper--reveal {
+.Controls__instruction-wrapper--reveal .Controls__control {
   background: var(--button-color-dark);
   color: var(--text-color-light);
 }
 
-.Controls__instruction-wrapper--clear {
+.Controls__instruction-wrapper--clear .Controls__control {
   background: var(--button-color-darker);
   color: var(--text-color-light);
 }
@@ -70,15 +65,18 @@
   transition: background-color .1s ease-in;
 }
 
-.Controls__instruction-wrapper--check .Controls__control:hover {
+.Controls__instruction-wrapper--check .Controls__control:hover,
+.Controls__instruction-wrapper--check .Controls__control:focus {
   background-color: var(--button-color-hover);
 }
 
-.Controls__instruction-wrapper--reveal .Controls__control:hover {
+.Controls__instruction-wrapper--reveal .Controls__control:hover,
+.Controls__instruction-wrapper--reveal .Controls__control:focus {
   background-color: var(--button-color-dark-hover);
 }
 
-.Controls__instruction-wrapper--clear .Controls__control:hover {
+.Controls__instruction-wrapper--clear .Controls__control:hover,
+.Controls__instruction-wrapper--clear .Controls__control:focus {
   background-color: var(--button-color-darker-hover);
   color: var(--text-color-light-hover);
 }

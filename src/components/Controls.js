@@ -1,10 +1,9 @@
-import { handleClick } from './helpers/Controls/index';
 import './styles/Controls.css';
 
 const targets = [
-  { text: 'letter', targetMode: 'letter' },
-  { text: 'word', targetMode: 'word' },
-  { text: 'grid', targetMode: 'grid' },
+  { text: 'letter', targetMode: 'cell' },
+  { text: 'word', targetMode: 'clueGroup' },
+  { text: 'grid', targetMode: 'crossword' },
 ];
 const instructions = [
   { text: 'Check', className: 'check', instructionMode: 'check' },
@@ -12,7 +11,9 @@ const instructions = [
   { text: 'Clear', className: 'clear', instructionMode: 'clear' },
 ];
 
-function Controls(props) {
+export default function Controls({
+  onClick,
+}) {
   return (
     <div className="Controls__wrapper">
       {instructions.map((instruction, i) => (
@@ -27,11 +28,10 @@ function Controls(props) {
             {targets.map((target, i) => (
               <li key={i}>
                 <button
-                  onClick={() => handleClick({
-                    instruction: instruction.instructionMode,
-                    target: target.targetMode,
-                    ...props,
-                  })}
+                  onClick={() => onClick(
+                    instruction.instructionMode,
+                    target.targetMode,
+                  )}
                   className={`
                     Controls__control
                   `}
@@ -46,5 +46,3 @@ function Controls(props) {
     </div>
   );
 }
-
-export default Controls;
