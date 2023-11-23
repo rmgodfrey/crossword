@@ -1,0 +1,9 @@
+export { default as Set } from './_CustomSet';
+export { default as bindMethods } from './_bindMethods';
+export { default as createInstances } from './_createInstances';
+export { default as isAlphabetic } from './_isAlphabetic';
+export { default as iterateOver } from './_iterateOver';
+export { default as mod } from './_mod';
+export { default as numberOfLetters } from './_numberOfLetters';
+export { default as removeNonAlphabetic } from './_removeNonAlphabetic';
+export { default as prioritize } from './_prioritize';

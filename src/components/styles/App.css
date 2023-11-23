@@ -1,0 +1,13 @@
+.App {
+  display: grid;
+  grid-template-rows: min-content auto;
+  min-height: 100vh;
+  padding: var(--outer-padding);
+  row-gap: var(--grid-row-gap);
+}
+
+@media (max-width: 900px) {
+  .App__heading {
+    text-align: center;
+  }
+}

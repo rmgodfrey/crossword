@@ -1,52 +1,65 @@
-import { handleClick } from './helpers/ClueList/index';
+import { useRef, useEffect } from 'react';
 import './styles/ClueList.css';
-import useScrollbarShadow from './helpers/useScrollbarShadow';
-import Clue from './Clue';
+import OverflowFade from './OverflowFade';
+import ListedClue from './ListedClue';
+import { bindMethods } from '../helpers/index';
 
 export default function ClueList({
-  cells,
-  clues,
-  clueFragments,
-  state,
-  refs,
-  direction,
+  crossword,
+  orientation,
+  selectedClueGroup,
+  selectedClue,
+  onClueClick,
+  cellText,
 }) {
-  const { overflow, onScrollHandler } = useScrollbarShadow();
-  const selectedClue = state.clueState[0];
-  let clueListClass = 'ClueList';
-  if (overflow) {
-    clueListClass += ` ClueList--${overflow}-overflow`;
-  };
+  const clueListRef = useRef(null);
+  const clueRefs = useRef(new Map());
+  useEffect(() => {
+    if (clueRefs.current.has(selectedClue)) {
+      const node = clueRefs.current.get(selectedClue);
+      const parent = clueListRef.current;
+      const leeway = 28;
+      const nodeBottom = node.offsetTop + node.offsetHeight + leeway;
+      const nodeTop = node.offsetTop - leeway;
+      if (nodeBottom > parent.scrollTop + parent.clientHeight) {
+        parent.scroll({ top: nodeBottom - parent.clientHeight });
+      } else if (nodeTop < parent.scrollTop) {
+        parent.scroll({ top: nodeTop });
+      }
+    }
+  }, [selectedClue]);
+
+  const { clueGroupsByOrientation, sortedClues } = bindMethods(crossword);
+  const clueGroups = clueGroupsByOrientation.get(orientation);
+  const clues = sortedClues({ clueGroupSubset: clueGroups });
+
   return (
-    <ul
-      onScroll={onScrollHandler}
-      className={clueListClass}
-      ref={(node) => {
-        refs.clueListRefs.current[direction] = node;
-      }}
-    >
-      {clueFragments.map((clueFragment, index) => (
-        <li
-          key={index}
-          className={
-            'ClueList__clue'
-            + (selectedClue === clueFragment.clueId ? ' ClueList__clue--selected' : '')
-          }
-          onClick={() => handleClick({
-            clueFragment,
-            state,
-            refs,
-          })}
-          ref={node => refs.clueFragmentRefs.current.push(node)}
-        >
-          <Clue
-            cells={cells}
-            clues={clues}
-            clueFragment={clueFragment}
-            cellText={state.textState[0]}
-          />
-        </li>
-      ))}
-    </ul>
+    <OverflowFade direction="vertical" ref={clueListRef}>
+      <ul
+        className="ClueList"
+      >
+        {clues.map((clue, index) => {
+          return (
+            <li
+              key={index}
+              ref={(node) => {
+                if (node) {
+                  clueRefs.current.set(clue, node);
+                } else {
+                  clueRefs.current.delete(clue);
+                }
+              }}
+            >
+              <ListedClue
+                isSelected={clue.clueGroup === selectedClueGroup}
+                clue={clue}
+                cellText={cellText}
+                onClick={() => onClueClick(clue)}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </OverflowFade>
   );
 }

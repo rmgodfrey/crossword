@@ -1,36 +1,5 @@
 .ClueList {
   list-style-type: none;
   padding-left: 0;
-  overflow: auto;
-}
-
-.ClueList--top-overflow {
-  mask-image: linear-gradient(to top, white 90%, 93%, transparent);
-  -webkit-mask-image: linear-gradient(to top, white 90%, 93%, transparent);
-}
-
-.ClueList--bottom-overflow {
-  mask-image: linear-gradient(to top, transparent, 7%, white 10%);
-  -webkit-mask-image: linear-gradient(to top, transparent, 7%, white 10%);
-}
-
-.ClueList--top-and-bottom-overflow {
-  mask-image: linear-gradient(to top, transparent, 7%, white 10%, white 90%, 93%, transparent);
-  -webkit-mask-image: linear-gradient(to top, transparent, 7%, white 10%, white 90%, 93%, transparent);
-}
-
-.ClueList__clue {
-  margin-block: 4px;
-  scroll-margin: 4px;
-  padding: 2px;
-  border: 2px solid transparent;
-}
-
-.ClueList__clue--selected {
-  background-color: var(--selected-cell-color);
-  border: 2px solid var(--text-color);
-  border-radius: 5px;
-  color: var(--text-color-light);
-  font-weight: bold;
-  --finished-clue-text: #dedede;
+  position: relative;
 }

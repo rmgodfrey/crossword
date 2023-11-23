@@ -1,59 +1,71 @@
 .Crossword {
   display: grid;
-  grid-template-areas:
-    "header header header"
-    "main-left main-right-first main-right-second";
-  grid-template-columns: 1.6fr 1fr 1fr;
-  grid-template-rows: auto 592px;
-  max-width: 1125px;
-  row-gap: var(--grid-row-gap);
+  grid-template-columns: min(50%, var(--grid-size)) auto;
+  max-width: var(--crossword-width);
   column-gap: var(--grid-column-gap);
-  padding: var(--grid-outer-padding);
+  row-gap: var(--grid-row-gap);
+}
+
+.Crossword__grid-and-controls {
+  flex: 0 1 var(--grid-size);
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-row-gap);
+}
+
+.Crossword__clue-containers {
+  flex: 0 3 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--grid-column-gap);
+}
+
+.Crossword__clue-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-row-gap);
+  height: var(--crossword-height);
+}
+
+.Crossword__current-clue {
+  display: none;
 }
 
 .Crossword:focus {
   outline: none;
 }
 
-.Crossword__heading {
-  grid-area: header;
-}
-
-.Crossword__grid-and-controls {
-  grid-area: main-left;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.Crossword__clue-container {
-  height: 100%;
-  overflow: hidden;
-}
-
-.Crossword__clue-container--across {
-  grid-area: main-right-first;
-}
-
-.Crossword__clue-container--down {
-  grid-area: main-right-second;
-}
-
-.Crossword__current-clue {
-  display: none;
-  margin: 0;
-}
-
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .Crossword {
-    grid-template-areas:
-      "header header"
-      "main-left main-left"
-      "main-right-first main-right-second";
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
+    display: flex;
+    flex-direction: column;
   }
+
   .Crossword__current-clue {
-    display: block;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    height: calc(1em * var(--line-height));
+    width: calc(100vw - (var(--outer-padding) * 2));
+  }
+
+  .Crossword__grid-and-controls {
+    align-items: center;
+  }
+
+  .Crossword__clue-container {
+    height: unset;
+  }
+
+  .Crossword__clue-container-heading {
+    text-align: center;
+  }
+}
+
+@media (max-width: 450px) {
+  .Crossword__clue-containers {
+    grid-template-columns: auto;
+    grid-template-rows: var(--grid-size) var(--grid-size);
+    row-gap: var(--grid-row-gap);
   }
 }

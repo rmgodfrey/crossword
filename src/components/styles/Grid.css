@@ -1,5 +1,6 @@
 .Grid {
   position: relative;
+  width: min(100%, var(--grid-size));
 }
 
 .Grid__graphics {
@@ -7,8 +8,15 @@
 }
 
 .Grid__input-wrapper {
-  display: none;
   position: absolute;
+
+  /*
+    These two rules ensure that when the user clicks on an already-selected cell
+    that belongs to two clue groups, the selected clue group changes (e.g., if
+    the across clue group is currently selected, clicking on the current cell
+    will select the down clue group). If these rules weren't here, the grid
+    input wrapper would prevent the cell underneath it from receiving the click.
+  */
   pointer-events: none;
   cursor: text;
 }
@@ -22,4 +30,22 @@
   border: 0;
   padding: 0;
   margin: 0;
+
+  /*
+    Not sure why this is needed, but it keeps the focus ring in the right place
+    at narrow screen sizes.
+  */
+  position: absolute;
+}
+
+.Grid__hyphen-separator {
+  stroke: white;
+}
+
+.Grid__hyphen-separator--selected-clue-group {
+  stroke: var(--selected-clue-group-color);
+}
+
+.Grid__hyphen-separator--selected-cell {
+  stroke: var(--selected-cell-color);
 }

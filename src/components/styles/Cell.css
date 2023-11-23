@@ -2,8 +2,8 @@
   fill: #ffffff;
 }
 
-.Cell--selected-clue {
-  fill: var(--selected-clue-color);
+.Cell--selected-clue-group {
+  fill: var(--selected-clue-group-color);
 }
 
 .Cell--selected-cell {

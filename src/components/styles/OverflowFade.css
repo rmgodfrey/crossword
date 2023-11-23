@@ -1,0 +1,33 @@
+.OverflowFade {
+  overflow: auto;
+}
+
+.OverflowFade--top {
+  mask-image: linear-gradient(to top, white 90%, 93%, transparent);
+  -webkit-mask-image: linear-gradient(to top, white 90%, 93%, transparent);
+}
+
+.OverflowFade--bottom {
+  mask-image: linear-gradient(to top, transparent, 7%, white 10%);
+  -webkit-mask-image: linear-gradient(to top, transparent, 7%, white 10%);
+}
+
+.OverflowFade--top.OverflowFade--bottom {
+  mask-image: linear-gradient(to top, transparent, 7%, white 10%, white 90%, 93%, transparent);
+  -webkit-mask-image: linear-gradient(to top, transparent, 7%, white 10%, white 90%, 93%, transparent);
+}
+
+.OverflowFade--left {
+  mask-image: linear-gradient(to left, white 90%, 93%, transparent);
+  -webkit-mask-image: linear-gradient(to left, white 90%, 93%, transparent);
+}
+
+.OverflowFade--right {
+  mask-image: linear-gradient(to left, transparent, 7%, white 10%);
+  -webkit-mask-image: linear-gradient(to left, transparent, 7%, white 10%);
+}
+
+.OverflowFade--left.OverflowFade--right {
+  mask-image: linear-gradient(to left, transparent, 7%, white 10%, white 90%, 93%, transparent);
+  -webkit-mask-image: linear-gradient(to left, transparent, 7%, white 10%, white 90%, 93%, transparent);
+}

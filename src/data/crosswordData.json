@@ -1,0 +1,328 @@
+
+{
+  "gridWidth": 15,
+  "clueGroups": [
+    {
+      "text": "More stable",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 15,
+          "answer": "steadier"
+        }
+      ]
+    },
+    {
+      "text": "Onomatopoeic",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 24,
+          "answer": "echoic"
+        }
+      ]
+    },
+    {
+      "text": "Outer portions of bread",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 45,
+          "answer": "crusts"
+        }
+      ]
+    },
+    {
+      "text": "Brainy people",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 52,
+          "answer": "eggheads"
+        }
+      ]
+    },
+    {
+      "text": "Holding nothing back",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 65,
+          "answer": "all-"
+        },
+        {
+          "start": 157,
+          "answer": "out"
+        }
+      ]
+    },
+    {
+      "text": "Move back and forth",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 75,
+          "answer": "see-saw"
+        }
+      ]
+    },
+    {
+      "text": "Traitor",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 82,
+          "answer": "turncoat"
+        }
+      ]
+    },
+    {
+      "text": "Screaming",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 105,
+          "answer": "yelling"
+        }
+      ]
+    },
+    {
+      "text": "Fallback in the absence of customization",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 113,
+          "answer": "default"
+        }
+      ]
+    },
+    {
+      "text": "Showing embarrassment",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 135,
+          "answer": "sheepish"
+        }
+      ]
+    },
+    {
+      "text": "Participant in an ocean sport",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 144,
+          "answer": "surfer"
+        }
+      ]
+    },
+    {
+      "text": "Item of footwear that prevents you from sinking",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 165,
+          "answer": "snowshoe"
+        }
+      ]
+    },
+    {
+      "text": "Make more spiritual",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 174,
+          "answer": "rarefy"
+        }
+      ]
+    },
+    {
+      "text": "“I’m a creep, I’m a _____”",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 195,
+          "answer": "weirdo"
+        }
+      ]
+    },
+    {
+      "text": "Set in from the margin",
+      "orientation": "across",
+      "clues": [
+        {
+          "start": 202,
+          "answer": "indented"
+        }
+      ]
+    },
+    {
+      "text": "Astronomically successful film franchise",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 1,
+          "answer": "Star "
+        },
+        {
+          "start": 3,
+          "answer": "Wars"
+        }
+      ]
+    },
+    {
+      "text": "An interlocking puzzle",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 5,
+          "answer": "jigsaw"
+        }
+      ]
+    },
+    {
+      "text": "Brutality",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 7,
+          "answer": "cruelty"
+        }
+      ]
+    },
+    {
+      "text": "A fish- and rice-based dish",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 9,
+          "answer": "kedgeree"
+        }
+      ]
+    },
+    {
+      "text": "Mobility device",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 11,
+          "answer": "wheelchair"
+        }
+      ]
+    },
+    {
+      "text": "Avian sound",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 13,
+          "answer": "birdcall"
+        }
+      ]
+    },
+    {
+      "text": "Employ",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 47,
+          "answer": "use"
+        }
+      ]
+    },
+    {
+      "text": "For example",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 75,
+          "answer": "say"
+        }
+      ]
+    },
+    {
+      "text": "Forks and knives",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 78,
+          "answer": "silverware"
+        }
+      ]
+    },
+    {
+      "text": "Made better",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 106,
+          "answer": "enhanced"
+        }
+      ]
+    },
+    {
+      "text": "The person next door",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 110,
+          "answer": "neighbor"
+        }
+      ]
+    },
+    {
+      "text": "Sailor, in cryptic crosswords",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 119,
+          "answer": "tar"
+        }
+      ]
+    },
+    {
+      "text": "Bird that is reborn",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 127,
+          "answer": "phoenix"
+        }
+      ]
+    },
+    {
+      "text": "A big step",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 144,
+          "answer": "stride"
+        }
+      ]
+    },
+    {
+      "text": "Not a friend",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 147,
+          "answer": "foe"
+        }
+      ]
+    },
+    {
+      "text": "Living ____-____ in my head",
+      "orientation": "down",
+      "clues": [
+        {
+          "start": 176,
+          "answer": "rent-"
+        },
+        {
+          "start": 178,
+          "answer": "free"
+        }
+      ]
+    }
+  ]
+}

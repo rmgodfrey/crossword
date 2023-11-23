@@ -1,7 +1,39 @@
+.Clue {
+  border: 2px solid transparent;
+  padding: 2px;
+  column-gap: 0.5em;
+}
+
+.Clue--listed {
+  display: grid;
+  grid-template-columns: 1.5em auto;
+}
+
+.Clue--selected {
+  background-color: var(--selected-cell-color);
+  border: 2px solid var(--text-color);
+  border-radius: 5px;
+  color: var(--text-color-light);
+  font-weight: bold;
+  padding: 2px;
+  --finished-clue-text: #dadada;
+}
+
+.Clue--standalone {
+  padding: 0;
+  border: none;
+  display: flex;
+  justify-content: start;
+}
+
+.Clue--standalone > * {
+  flex: 0 0 auto;
+}
+
 .Clue__clue-number {
   font-weight: bold;
 }
 
-.Clue__finished {
+.Clue--finished {
   color: var(--finished-clue-text);
 }
