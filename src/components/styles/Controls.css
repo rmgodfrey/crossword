@@ -84,9 +84,14 @@
 @media (max-width: 320px) {
   .Controls {
     flex-direction: column;
+    gap: 8px;
+  }
+  .Controls__control {
+    margin-block: 0;
   }
   .Controls__wrapper {
     flex-direction: column;
+    gap: 16px;
   }
   .Controls__instruction-wrapper {
     align-items: start;
