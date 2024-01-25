@@ -82,6 +82,7 @@ export default function Crossword({
       { check, reveal, clear }[instruction],
     );
     setCellText(newCellText);
+    focusGridInput();
   }
 
   function handleTabKey(direction) {
