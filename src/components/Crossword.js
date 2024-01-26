@@ -7,6 +7,7 @@ import OverflowFade from './OverflowFade';
 import StandaloneClue from './StandaloneClue';
 import './styles/Crossword.css';
 import {
+  StateError,
   bindMethods,
   numberOfLetters,
 } from '../helpers/index';
@@ -38,14 +39,17 @@ export default function Crossword({
   // new array.
   function copyCells(target) {
     const newCells = [];
-    if (target === 'cell' || target === 'clueGroup') {
-      if (selectedCell == null) return;
-      if (target === 'cell') {
-        newCells[selectedCell.number] = selectedCell;
-      } else if (target === 'clueGroup') {
-        for (const cell of selectedClueGroup.getCells()) {
-          newCells[cell.number] = cell;
-        }
+    if (target === 'cell') {
+      if (!selectedCell) throw new StateError(
+        'There is no currently selected cell.'
+      );
+      newCells[selectedCell.number] = selectedCell;
+    } else if (target === 'clueGroup') {
+      if (!selectedClueGroup) throw new StateError(
+        'There is no currently selected clue group.'
+      );
+      for (const cell of selectedClueGroup.getCells()) {
+        newCells[cell.number] = cell;
       }
     } else if (target === 'crossword') {
       cells.forEach(cell => { newCells[cell.number] = cell });
@@ -76,13 +80,18 @@ export default function Crossword({
   }
 
   function handleControlClick(instruction, target) {
-    const visibleCells = copyCells(target);
-    const newCellText = getNewCellText(
-      visibleCells,
-      { check, reveal, clear }[instruction],
-    );
-    setCellText(newCellText);
-    focusGridInput();
+    try {
+      const visibleCells = copyCells(target);
+      const newCellText = getNewCellText(
+        visibleCells,
+        { check, reveal, clear }[instruction],
+      );
+      setCellText(newCellText);
+      focusGridInput();
+    } catch (e) {
+      if (e instanceof StateError) return;
+      throw e;
+    }
   }
 
   function handleTabKey(direction) {

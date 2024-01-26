@@ -1,4 +1,5 @@
 export { default as Set } from './_CustomSet';
+export { default as StateError } from './_StateError.js';
 export { default as bindMethods } from './_bindMethods';
 export { default as createInstances } from './_createInstances';
 export { default as isAlphabetic } from './_isAlphabetic';
