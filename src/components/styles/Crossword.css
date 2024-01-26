@@ -3,7 +3,7 @@
   grid-template-columns: min(50%, var(--grid-size)) auto;
   max-width: var(--crossword-width);
   column-gap: var(--grid-column-gap);
-  row-gap: var(--grid-row-gap);
+  row-gap: calc(1em * var(--line-height) + var(--grid-row-gap) * 2);
 }
 
 .Crossword__grid-and-controls {
